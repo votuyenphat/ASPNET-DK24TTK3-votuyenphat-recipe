@@ -1,0 +1,31 @@
+.login-form {
+    background-color: var(--color-bg-card);
+    padding: var(--space-xl);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    width: 100%;
+    max-width: 400px;
+    /* Giới hạn chiều rộng trên Desktop */
+}
+
+.form-title {
+    font-size: var(--font-size-xl);
+    color: var(--color-text-primary);
+    text-align: center;
+    margin-bottom: var(--space-lg);
+    font-weight: var(--font-weight-bold);
+}
+
+.form-global-error {
+    background-color: #fce4e4;
+    color: var(--color-error);
+    padding: var(--space-sm);
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--space-md);
+    font-size: var(--font-size-sm);
+    text-align: center;
+}
+
+.form-actions {
+    margin-top: var(--space-lg);
+}

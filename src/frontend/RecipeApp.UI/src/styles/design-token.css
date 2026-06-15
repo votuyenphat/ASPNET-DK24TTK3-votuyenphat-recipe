@@ -1,0 +1,117 @@
+:root {
+    /* ==================
+     1. COLORS (Màu sắc)
+     ================== */
+    /* Primary - Màu chủ đạo (Màu cam giống Cookpad) */
+    --color-primary: #cb6d23;
+    --color-primary-hover: #b05e1e;
+    --color-primary-light: #fbebdc;
+
+    /* Backgrounds - Màu nền */
+    --color-bg-main: #fcfaf8;
+    /* Nền trắng hơi ngà */
+    --color-bg-card: #ffffff;
+    --color-bg-admin: #f4f6f8;
+
+    /* Text - Màu chữ */
+    --color-text-primary: #333333;
+    --color-text-secondary: #767676;
+    --color-text-hint: #a2a2a2;
+
+    /* States - Trạng thái */
+    --color-error: #e74c3c;
+    --color-success: #2ecc71;
+
+    /* ==================
+     2. TYPOGRAPHY (Font & Size)
+     ================== */
+    --font-family-base: 'Nunito', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    --font-size-xs: 12px;
+    --font-size-sm: 14px;
+    --font-size-base: 16px;
+    /* Body text */
+    --font-size-lg: 18px;
+    --font-size-xl: 24px;
+    /* Tiêu đề công thức */
+    --font-size-xxl: 32px;
+    /* Tiêu đề trang */
+
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-bold: 700;
+
+    /* ==================
+     3. BORDERS & RADIUS (Bo góc)
+     ================== */
+    --radius-sm: 4px;
+    /* Cho input, tag */
+    --radius-md: 8px;
+    /* Cho button, hình ảnh nhỏ */
+    --radius-lg: 16px;
+    /* Cho Recipe Card giống Cookpad */
+    --radius-full: 50%;
+    /* Cho Avatar */
+
+    /* ==================
+     4. SPACING (Khoảng cách)
+     ================== */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+
+    /* ==================
+     5. SHADOWS (Đổ bóng)
+     ================== */
+    --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --shadow-header: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Base setup for responsive */
+html {
+    font-family: var(--font-family-base);
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-main);
+    box-sizing: border-box;
+}
+
+/* ==================
+   ANIMATIONS
+   ================== */
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+@keyframes slideDownFade {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-shake {
+    animation: shake 0.4s ease-in-out;
+}
+
+.animate-error {
+    animation: slideDownFade 0.2s ease-out forwards;
+}

@@ -1,0 +1,129 @@
+.login-page-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-bg-main);
+    /* Dùng màu nền design token */
+    padding: var(--space-md);
+    /* Tránh form chạm viền màn hình trên mobile */
+}
+
+/* Layout tổng: Trải dài toàn màn hình */
+.login-layout {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--color-bg-main);
+}
+
+/* ==================
+   CỘT TRÁI: BANNER
+   ================== */
+.login-banner {
+    display: none;
+    /* Ẩn mặc định trên mobile */
+    position: relative;
+    flex: 1;
+    /* Chiếm phần không gian còn lại */
+    overflow: hidden;
+    background-color: var(--color-primary-light);
+}
+
+.banner-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.banner-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.1) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: var(--space-xl) var(--space-xl) 60px;
+    color: white;
+}
+
+.banner-title {
+    font-size: var(--font-size-xxl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-sm);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.banner-subtitle {
+    font-size: var(--font-size-lg);
+    opacity: 0.9;
+    max-width: 80%;
+    line-height: 1.5;
+}
+
+/* ==================
+   CỘT PHẢI: FORM
+   ================== */
+.login-form-section {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-lg);
+}
+
+.login-form-wrapper {
+    width: 100%;
+    max-width: 420px;
+    /* Thêm animation nhẹ khi load trang */
+    animation: slideDownFade 0.5s ease-out;
+}
+
+/* Logo giả lập phía trên form */
+.brand-logo {
+    text-align: center;
+    font-size: var(--font-size-xxl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+    margin-bottom: var(--space-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+}
+
+.login-footer {
+    text-align: center;
+    margin-top: var(--space-lg);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+}
+
+.link-primary {
+    color: var(--color-primary);
+    font-weight: var(--font-weight-bold);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.link-primary:hover {
+    color: var(--color-primary-hover);
+    text-decoration: underline;
+}
+
+/* ==================
+   RESPONSIVE (DESKTOP)
+   ================== */
+@media (min-width: 900px) {
+    .login-banner {
+        display: flex;
+        /* Hiện banner trên màn hình lớn */
+    }
+
+    .login-form-section {
+        width: 480px;
+        /* Cố định chiều rộng cột chứa form */
+        background-color: var(--color-bg-card);
+        box-shadow: -4px 0 15px rgba(0, 0, 0, 0.03);
+        /* Đổ bóng nhẹ ngăn cách 2 bên */
+    }
+}
