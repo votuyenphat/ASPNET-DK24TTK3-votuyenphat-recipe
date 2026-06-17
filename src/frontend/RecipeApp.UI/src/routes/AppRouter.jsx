@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { UserLayout } from "../layouts/UserLayout/UserLayout";
 import AdminLayout from "../layouts/AdminLayout/AdminLayout";
 import { LoginPage } from "../pages/User/LoginPage";
+import { RegisterPage } from "../pages/User/RegisterPage";
 
 // Mock pages
 const HomePage = () => <div>Trang chủ Cookpad</div>;
@@ -12,9 +13,10 @@ export const AppRouter = () => {
     <BrowserRouter>
       <Routes>
         {/* Nhóm Route dành cho User */}
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
         <Route element={<UserLayout />}>
           <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
           <Route path="/recipe/:id" element={<div>Chi tiết công thức</div>} />
         </Route>
 

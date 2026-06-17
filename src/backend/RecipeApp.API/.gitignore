@@ -1,0 +1,32 @@
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+*.sln.docstates
+
+*.log
+
+appsettings.Development.json
+appsettings.Production.json
+
+*.dbmdl
+*.jfm
+*.pfx
+
+publish/
+out/
+
+# =========================
+# NuGet
+# =========================
+packages/
+*.nupkg
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db

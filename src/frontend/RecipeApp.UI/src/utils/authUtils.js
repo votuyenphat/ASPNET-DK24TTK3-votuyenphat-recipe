@@ -1,4 +1,4 @@
-const TOKEN_KEY = "YOUR_SUPER_SECRET_KEY_NEEDS_TO_BE_LONG_ENOUGH_HERE";
+const TOKEN_KEY = "recipe_app_token";
 const USER_INFO_KEY = "recipe_app_user";
 
 export const authUtils = {

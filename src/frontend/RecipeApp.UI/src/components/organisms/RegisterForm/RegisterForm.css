@@ -1,6 +1,4 @@
-/* src/components/organisms/LoginForm/LoginForm.css */
-
-.login-form {
+.register-form {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -9,7 +7,7 @@
 .form-title {
     font-size: var(--font-size-xl);
     color: var(--color-text-primary);
-    margin-bottom: var(--space-sm);
+    margin-bottom: var(--space-xs);
     font-weight: var(--font-weight-bold);
 }
 
@@ -27,4 +25,8 @@
     margin-bottom: var(--space-md);
     border: 1px solid rgba(231, 76, 60, 0.2);
     text-align: center;
+}
+
+.form-actions {
+    margin-top: var(--space-lg);
 }

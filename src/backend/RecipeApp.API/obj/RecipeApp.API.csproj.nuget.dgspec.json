@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\lam-muon\\cook-pad\\ASPNET-DK24TTK3-votuyenphat-recipe\\src\\backend\\RecipeApp.API\\RecipeApp.API.csproj": {}
+    "D:\\dotnet\\cookpad\\src\\backend\\RecipeApp.API\\RecipeApp.API.csproj": {}
   },
   "projects": {
-    "D:\\lam-muon\\cook-pad\\ASPNET-DK24TTK3-votuyenphat-recipe\\src\\backend\\RecipeApp.API\\RecipeApp.API.csproj": {
+    "D:\\dotnet\\cookpad\\src\\backend\\RecipeApp.API\\RecipeApp.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\lam-muon\\cook-pad\\ASPNET-DK24TTK3-votuyenphat-recipe\\src\\backend\\RecipeApp.API\\RecipeApp.API.csproj",
+        "projectUniqueName": "D:\\dotnet\\cookpad\\src\\backend\\RecipeApp.API\\RecipeApp.API.csproj",
         "projectName": "RecipeApp.API",
-        "projectPath": "D:\\lam-muon\\cook-pad\\ASPNET-DK24TTK3-votuyenphat-recipe\\src\\backend\\RecipeApp.API\\RecipeApp.API.csproj",
+        "projectPath": "D:\\dotnet\\cookpad\\src\\backend\\RecipeApp.API\\RecipeApp.API.csproj",
         "packagesPath": "C:\\Users\\ancha\\.nuget\\packages\\",
-        "outputPath": "D:\\lam-muon\\cook-pad\\ASPNET-DK24TTK3-votuyenphat-recipe\\src\\backend\\RecipeApp.API\\obj\\",
+        "outputPath": "D:\\dotnet\\cookpad\\src\\backend\\RecipeApp.API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ancha\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -43,6 +43,26 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.2.0, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
+            "Microsoft.AspNetCore.OpenApi": {
+              "target": "Package",
+              "version": "[8.0.27, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[8.0.8, )"

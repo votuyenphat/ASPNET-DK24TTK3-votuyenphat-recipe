@@ -1,0 +1,23 @@
+.user-layout-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--color-bg-main);
+}
+
+.main-content {
+    flex: 1;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-lg) var(--space-md);
+}
+
+/* Tránh nội dung bị che khuất bởi Bottom Nav trên Mobile */
+@media (max-width: 768px) {
+    .main-content {
+        padding-bottom: 80px;
+        /* Chừa không gian cho bottom nav */
+        padding-top: var(--space-md);
+    }
+}

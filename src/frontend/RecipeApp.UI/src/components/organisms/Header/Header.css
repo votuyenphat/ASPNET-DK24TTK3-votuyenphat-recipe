@@ -1,0 +1,141 @@
+/* Glassmorphism & Sticky */
+.main-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(8px);
+    /* Hiệu ứng kính mờ hiện đại */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-header);
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-sm) var(--space-md);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-lg);
+}
+
+.header-logo {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+/* Search Bar Styles */
+.header-search {
+    flex: 1;
+    max-width: 500px;
+    display: flex;
+    align-items: center;
+    background-color: #f5f5f5;
+    /* Dùng màu xám nhạt để ô tìm kiếm nổi bật hơn trên nền trắng */
+
+    /* SỬ DỤNG RADIUS PILL ĐỂ BO TRÒN 2 ĐẦU */
+    border-radius: var(--radius-pill);
+
+    padding: 4px 16px;
+    /* Tăng padding 2 bên để chữ không sát viền cong */
+    border: 1px solid transparent;
+    transition: border-color 0.2s, background-color 0.2s;
+}
+
+.header-search:focus-within {
+    border-color: var(--color-primary-light);
+    background-color: #ffffff;
+    /* Sáng lên khi click vào */
+    box-shadow: 0 0 0 2px rgba(203, 109, 35, 0.1);
+    /* Hiệu ứng focus phát sáng nhẹ giống Cookpad */
+}
+
+.search-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: var(--space-sm) var(--space-md);
+    outline: none;
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-sm);
+}
+
+.search-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0 var(--space-sm);
+}
+
+/* Actions Styles */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.btn-write-recipe {
+    background-color: var(--color-primary);
+    color: white;
+
+    /* SỬ DỤNG RADIUS PILL */
+    border-radius: var(--radius-pill);
+
+    padding: 10px 20px;
+    /* Chỉnh lại padding để nút trông đầy đặn hơn */
+    text-decoration: none;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    transition: background-color 0.2s, transform 0.1s;
+    display: inline-block;
+    /* Giúp padding hoạt động chuẩn xác */
+}
+
+.btn-write-recipe:hover {
+    background-color: var(--color-primary-hover);
+    transform: translateY(-1px);
+    /* Hiệu ứng nảy nhẹ khi hover */
+}
+
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-full);
+    object-fit: cover;
+}
+
+.user-name {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+}
+
+.btn-logout {
+    background: none;
+    border: none;
+    color: var(--color-text-hint);
+    cursor: pointer;
+    font-size: var(--font-size-xs);
+}
+
+.btn-logout:hover {
+    color: var(--color-error);
+}
+
+/* Ẩn Header trên Mobile (Sẽ dùng Bottom Nav thay thế) */
+@media (max-width: 768px) {
+    .main-header {
+        display: none;
+    }
+}

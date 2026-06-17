@@ -1,94 +1,87 @@
-.login-page-container {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--color-bg-main);
-    /* Dùng màu nền design token */
-    padding: var(--space-md);
-    /* Tránh form chạm viền màn hình trên mobile */
-}
+/* src/pages/User/LoginPage.css */
 
-/* Layout tổng: Trải dài toàn màn hình */
 .login-layout {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr;
+    /* Mặc định 1 cột cho mobile */
     min-height: 100vh;
     background-color: var(--color-bg-main);
 }
 
 /* ==================
-   CỘT TRÁI: BANNER
+   CỘT TRÁI: BANNER (DÀNH CHO DESKTOP)
    ================== */
 .login-banner {
     display: none;
-    /* Ẩn mặc định trên mobile */
     position: relative;
-    flex: 1;
-    /* Chiếm phần không gian còn lại */
-    overflow: hidden;
     background-color: var(--color-primary-light);
+    overflow: hidden;
 }
 
 .banner-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    /* Đảm bảo ảnh luôn ở tâm dù màn hình rộng hay hẹp */
+    object-position: center;
 }
 
 .banner-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.1) 100%);
+    background: linear-gradient(to bottom,
+            rgba(0, 0, 0, 0.1) 0%,
+            rgba(0, 0, 0, 0.7) 100%);
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding: var(--space-xl) var(--space-xl) 60px;
-    color: white;
+    padding: var(--space-xl);
+    color: #ffffff;
 }
 
 .banner-title {
     font-size: var(--font-size-xxl);
     font-weight: var(--font-weight-bold);
     margin-bottom: var(--space-sm);
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    line-height: 1.2;
 }
 
 .banner-subtitle {
     font-size: var(--font-size-lg);
     opacity: 0.9;
-    max-width: 80%;
-    line-height: 1.5;
+    max-width: 480px;
+    line-height: 1.6;
 }
 
 /* ==================
-   CỘT PHẢI: FORM
+   CỘT PHẢI: FORM SECTION
    ================== */
 .login-form-section {
-    width: 100%;
     display: flex;
     align-items: center;
+    /* Căn giữa theo chiều dọc */
     justify-content: center;
+    /* Căn giữa theo chiều ngang */
     padding: var(--space-lg);
+    background-color: var(--color-bg-card);
 }
 
 .login-form-wrapper {
     width: 100%;
-    max-width: 420px;
-    /* Thêm animation nhẹ khi load trang */
-    animation: slideDownFade 0.5s ease-out;
+    max-width: 400px;
+    /* Độ rộng form chuẩn, không quá to */
+    animation: slideDownFade 0.6s ease-out;
 }
 
-/* Logo giả lập phía trên form */
 .brand-logo {
-    text-align: center;
-    font-size: var(--font-size-xxl);
-    font-weight: var(--font-weight-bold);
-    color: var(--color-primary);
-    margin-bottom: var(--space-xl);
     display: flex;
     align-items: center;
     justify-content: center;
     gap: var(--space-sm);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+    margin-bottom: var(--space-xl);
 }
 
 .login-footer {
@@ -100,30 +93,36 @@
 
 .link-primary {
     color: var(--color-primary);
-    font-weight: var(--font-weight-bold);
     text-decoration: none;
-    transition: color 0.2s;
+    font-weight: var(--font-weight-bold);
 }
 
 .link-primary:hover {
-    color: var(--color-primary-hover);
     text-decoration: underline;
 }
 
 /* ==================
-   RESPONSIVE (DESKTOP)
+   RESPONSIVE: TỶ LỆ VÀNG 50/50
    ================== */
-@media (min-width: 900px) {
+@media (min-width: 1024px) {
+    .login-layout {
+        /* Chia đều 50% cho Banner và 50% cho Form */
+        grid-template-columns: 1fr 1fr;
+    }
+
     .login-banner {
-        display: flex;
-        /* Hiện banner trên màn hình lớn */
+        display: block;
     }
 
     .login-form-section {
-        width: 480px;
-        /* Cố định chiều rộng cột chứa form */
-        background-color: var(--color-bg-card);
-        box-shadow: -4px 0 15px rgba(0, 0, 0, 0.03);
-        /* Đổ bóng nhẹ ngăn cách 2 bên */
+        /* Tạo hiệu ứng shadow nhẹ để tách biệt hai bên */
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.02);
+    }
+}
+
+/* Cho màn hình cực lớn, giữ form không bị loãng */
+@media (min-width: 1600px) {
+    .login-layout {
+        grid-template-columns: 1.2fr 0.8fr;
     }
 }

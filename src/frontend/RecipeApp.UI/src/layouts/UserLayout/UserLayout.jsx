@@ -1,15 +1,22 @@
+import React from "react";
 import { Outlet } from "react-router-dom";
+import "./UserLayout.css";
+import { Header } from "../../components/organisms/Header/Header";
+import { MobileBottomNav } from "../../components/organisms/MobileBottomNav/MobileBottomNav";
 
 export const UserLayout = () => {
   return (
-    <div className="user-layout">
-      {/* <Header /> */}
-      <main className="container mx-auto px-4 md:px-0">
-        {" "}
-        {/* Responsive container */}
-        <Outlet /> {/* Các trang của User sẽ render ở đây */}
+    <div className="user-layout-wrapper">
+      <Header />
+
+      {/* Vùng chứa nội dung chính */}
+      <main className="main-content">
+        <Outlet />
       </main>
-      {/* <Footer /> */}
+
+      <MobileBottomNav />
+
+      {/* Có thể thêm Footer ở đây cho Desktop nếu cần */}
     </div>
   );
 };

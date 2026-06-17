@@ -60,28 +60,12 @@ Features/Authentication/
   AuthResponse.cs
   LoginRequests.cs
   RegisterRequest.cs
-Features/Recipes/DTOs/
- RecipeCreateRequest.cs
- RecipeSummaryResponse.cs
-Features/Recipes/
- RecipesController.cs
- RecipeService.cs
-Features/Users/
- DTOs/UserProfileResponse.cs
- UserController.cs
- UserService.cs
 Infrastructure/Database/
  AppDbContext.cs
- Entities/
-  CategoryEntity.cs
-  IngredientEntity.cs
-  InstructionStepEntity.cs
-  RecipeEntity.cs
-  RecipeIngredientEntity.cs
-  UserEntity.cs
+ Entities/UserEntity.cs
 Migrations/
- 20260516050424_INIT.cs
- 20260516050424_INIT.Designer.cs
+ 20260515160356_AddIdentitySupport.cs
+ 20260515160356_AddIdentitySupport.Designer.cs
  AppDbContextModelSnapshot.cs
 obj/Debug/net8.0/
  .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
