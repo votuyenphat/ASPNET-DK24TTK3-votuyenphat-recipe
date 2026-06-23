@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { ChefHat, Search, LogOut } from "lucide-react";
 import { authUtils } from "../../../utils/authUtils";
 import "./Header.css";
 
@@ -17,10 +18,7 @@ export const Header = () => {
       <div className="header-container">
         {/* Logo */}
         <Link to="/" className="header-logo">
-          <span role="img" aria-label="chef">
-            🍳
-          </span>{" "}
-          RecipeApp
+          <ChefHat size={28} color="var(--color-primary)" /> RecipeApp
         </Link>
 
         {/* Search Bar (Molecule - Viết gộp tạm ở đây, sau này tách ra file riêng) */}
@@ -30,7 +28,9 @@ export const Header = () => {
             placeholder="Tìm kiếm công thức, nguyên liệu..."
             className="search-input"
           />
-          <button className="search-btn">🔍</button>
+          <button className="search-btn">
+            <Search size={18} color="var(--color-text-hint)" />
+          </button>
         </div>
 
         {/* User Actions */}
@@ -48,7 +48,7 @@ export const Header = () => {
               />
               <span className="user-name">{userInfo.displayName || "An"}</span>
               <button onClick={handleLogout} className="btn-logout">
-                Thoát
+                <LogOut size={20} />
               </button>
             </div>
           ) : (

@@ -1,0 +1,209 @@
+Project CookpadCloneDb {
+  database_type: "SQL Server"
+}
+
+Table Users {
+  Id nvarchar(450) [pk]
+  DisplayName nvarchar(100) [not null]
+  Bio nvarchar(500)
+  AvatarUrl nvarchar(500)
+  CoverUrl nvarchar(500)
+
+  TotalRecipes int [default: 0]
+  TotalFollowers int [default: 0]
+  TotalFollowing int [default: 0]
+
+  CreatedAt datetime2 [default: `GETUTCDATE()`]
+  UpdatedAt datetime2
+  IsDeleted bit [default: 0]
+}
+
+Table Categories {
+  Id int [pk, increment]
+  Name nvarchar(100) [not null]
+  Slug nvarchar(150) [not null, unique]
+  Description nvarchar(255)
+  IconUrl nvarchar(500)
+  SortOrder int [default: 0]
+}
+
+Table Recipes {
+  Id int [pk, increment]
+
+  AuthorId nvarchar(450) [not null]
+  CategoryId int
+
+  Title nvarchar(255) [not null]
+  Description nvarchar(max)
+  CoverImageUrl nvarchar(500)
+
+  PrepTimeMinutes int [default: 0]
+  CookTimeMinutes int [default: 0]
+
+  Servings int [default: 1]
+
+  Difficulty tinyint [default: 1, note: '1=Easy, 2=Medium, 3=Hard']
+
+  Cuisine nvarchar(100)
+  YoutubeVideoUrl nvarchar(500)
+
+  Status tinyint [default: 1, note: '0=Draft,1=Pending,2=Approved,3=Rejected']
+
+  Slug nvarchar(255) [not null, unique]
+
+  ViewCount int [default: 0]
+  FavoriteCount int [default: 0]
+  CommentCount int [default: 0]
+
+  AverageRating decimal(3,2) [default: 0]
+
+  CreatedAt datetime2 [default: `GETUTCDATE()`]
+  UpdatedAt datetime2
+  PublishedAt datetime2
+
+  IsDeleted bit [default: 0]
+
+  Note: 'TotalTimeMinutes is computed column'
+}
+
+Table RecipeImages {
+  Id int [pk, increment]
+
+  RecipeId int [not null]
+
+  ImageUrl nvarchar(500) [not null]
+
+  SortOrder int [default: 0]
+  IsCover bit [default: 0]
+}
+
+Table Ingredients {
+  Id int [pk, increment]
+  Name nvarchar(100) [not null, unique]
+}
+
+Table RecipeIngredients {
+  RecipeId int [not null]
+  IngredientId int [not null]
+
+  Amount nvarchar(50) [not null]
+  Unit nvarchar(30)
+  Note nvarchar(200)
+
+  SortOrder int [default: 0]
+
+  indexes {
+    (RecipeId, IngredientId) [pk]
+  }
+}
+
+Table InstructionSteps {
+  Id int [pk, increment]
+
+  RecipeId int [not null]
+
+  StepOrder int [not null]
+
+  Content nvarchar(max) [not null]
+
+  ImageUrl nvarchar(500)
+  VideoUrl nvarchar(500)
+}
+
+Table Tags {
+  Id int [pk, increment]
+
+  Name nvarchar(50) [not null, unique]
+
+  Slug nvarchar(60) [not null, unique]
+}
+
+Table RecipeTags {
+  RecipeId int [not null]
+  TagId int [not null]
+
+  indexes {
+    (RecipeId, TagId) [pk]
+  }
+}
+
+Table Ratings {
+  UserId nvarchar(450) [not null]
+  RecipeId int [not null]
+
+  StarCount tinyint [note: '1-5']
+
+  CreatedAt datetime2 [default: `GETUTCDATE()`]
+
+  indexes {
+    (UserId, RecipeId) [pk]
+  }
+}
+
+Table Comments {
+  Id int [pk, increment]
+
+  RecipeId int [not null]
+  UserId nvarchar(450) [not null]
+
+  Content nvarchar(1000) [not null]
+
+  ParentCommentId int
+
+  CreatedAt datetime2 [default: `GETUTCDATE()`]
+  UpdatedAt datetime2
+
+  IsDeleted bit [default: 0]
+}
+
+Table Favorites {
+  UserId nvarchar(450) [not null]
+  RecipeId int [not null]
+
+  CreatedAt datetime2 [default: `GETUTCDATE()`]
+
+  indexes {
+    (UserId, RecipeId) [pk]
+  }
+}
+
+Table UserFollows {
+  FollowerId nvarchar(450) [not null]
+  FollowedId nvarchar(450) [not null]
+
+  CreatedAt datetime2 [default: `GETUTCDATE()`]
+
+  indexes {
+    (FollowerId, FollowedId) [pk]
+  }
+}
+
+/* =========================
+   RELATIONSHIPS
+========================= */
+
+Ref: Recipes.AuthorId > Users.Id
+Ref: Recipes.CategoryId > Categories.Id
+
+Ref: RecipeImages.RecipeId > Recipes.Id
+
+Ref: RecipeIngredients.RecipeId > Recipes.Id
+Ref: RecipeIngredients.IngredientId > Ingredients.Id
+
+Ref: InstructionSteps.RecipeId > Recipes.Id
+
+Ref: RecipeTags.RecipeId > Recipes.Id
+Ref: RecipeTags.TagId > Tags.Id
+
+Ref: Ratings.UserId > Users.Id
+Ref: Ratings.RecipeId > Recipes.Id
+
+Ref: Comments.RecipeId > Recipes.Id
+Ref: Comments.UserId > Users.Id
+Ref: Comments.ParentCommentId > Comments.Id
+
+Ref: Favorites.UserId > Users.Id
+Ref: Favorites.RecipeId > Recipes.Id
+
+Ref: UserFollows.FollowerId > Users.Id
+Ref: UserFollows.FollowedId > Users.Id

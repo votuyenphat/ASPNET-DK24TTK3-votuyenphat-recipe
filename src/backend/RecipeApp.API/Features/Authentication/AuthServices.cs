@@ -10,6 +10,7 @@ using System.Text;
 
 namespace RecipeApp.API.Features.Authentication
 {
+
     public class AuthService
     {
         private readonly AppDbContext _context;
@@ -82,7 +83,6 @@ namespace RecipeApp.API.Features.Authentication
                 {
                     new Claim(ClaimTypes.NameIdentifier, user.Id), // IdentityUser dùng string Id
                     new Claim(ClaimTypes.Email, user.Email!),
-                    new Claim("DisplayName", user.DisplayName)
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(double.Parse(_configuration["JwtSettings:ExpiryMinutes"]!)),
                 Issuer = _configuration["JwtSettings:Issuer"],

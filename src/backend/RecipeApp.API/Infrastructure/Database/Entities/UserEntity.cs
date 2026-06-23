@@ -27,8 +27,8 @@ namespace RecipeApp.API.Infrastructure.Database.Entities
         NAVIGATION PROPERTIES
         ========================= */
 
-        // public ICollection<RecipeEntity> Recipes { get; set; }
-        //     = new List<RecipeEntity>();
+        public ICollection<RecipeEntity> Recipes { get; set; }
+            = new List<RecipeEntity>();
 
         // public ICollection<CommentEntity> Comments { get; set; }
         //     = new List<CommentEntity>();

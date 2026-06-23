@@ -4,6 +4,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using RecipeApp.API.Features.Authentication;
+using RecipeApp.API.Features.Categories;
+using RecipeApp.API.Features.Recipes;
+using RecipeApp.API.Features.Tags;
+using RecipeApp.API.Features.Users;
 using RecipeApp.API.Infrastructure.Database;
 using RecipeApp.API.Infrastructure.Database.Entities;
 
@@ -56,11 +60,15 @@ builder.Services.AddCors(options =>
         policy.WithOrigins("http://localhost:5173") // Đổi lại đúng URL của React App nếu bạn dùng port khác
               .AllowAnyHeader()
               .AllowAnyMethod()
-              .AllowCredentials(); // Cần thiết nếu sau này bạn dùng Cookie/Session
+              .AllowCredentials();
     });
 });
 
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<RecipeService>();
+builder.Services.AddScoped<CategoryService>();
+builder.Services.AddScoped<TagService>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -72,6 +80,37 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<AppDbContext>();
+    
+    // Kiểm tra xem đã có dữ liệu chưa, nếu chưa thì chèn danh mục mẫu
+    if (!context.Categories.Any())
+    {
+        context.Categories.AddRange(
+            new CategoryEntity { Name = "Món Khai Vị", Slug = "mon-khai-vi", SortOrder = 1 },
+            new CategoryEntity { Name = "Món Kho", Slug = "mon-kho", SortOrder = 2 },
+            new CategoryEntity { Name = "Món Canh", Slug = "mon-canh", SortOrder = 3 },
+            new CategoryEntity { Name = "Món Xào", Slug = "mon-xiao", SortOrder = 4 },
+            new CategoryEntity { Name = "Bánh & Đồ Ngọt", Slug = "banh-do-ngot", SortOrder = 5 }
+        );
+        context.SaveChanges();
+    }
+
+    // Chèn tag mẫu
+    if (!context.Tags.Any())
+    {
+        context.Tags.AddRange(
+            new TagEntity { Name = "Món Ngon Mỗi Ngày", Slug = "mon-ngon-moi-ngay" },
+            new TagEntity { Name = "Ăn Sáng", Slug = "an-sang" },
+            new TagEntity { Name = "Giảm Cân", Slug = "giam-can" },
+            new TagEntity { Name = "Dễ Làm", Slug = "de-lam" }
+        );
+        context.SaveChanges();
+    }
 }
 
 app.UseHttpsRedirection();

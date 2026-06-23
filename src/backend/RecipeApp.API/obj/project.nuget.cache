@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "YvCwxvPtJ54=",
+  "dgSpecHash": "ZfjsP+lyMDI=",
   "success": true,
-  "projectFilePath": "D:\\dotnet\\cookpad\\src\\backend\\RecipeApp.API\\RecipeApp.API.csproj",
+  "projectFilePath": "D:\\lam-muon\\cook-pad\\ASPNET-DK24TTK3-votuyenphat-recipe\\src\\backend\\RecipeApp.API\\RecipeApp.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ancha\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\ancha\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
