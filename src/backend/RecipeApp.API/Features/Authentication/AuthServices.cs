@@ -33,10 +33,15 @@ namespace RecipeApp.API.Features.Authentication
                 return null;
             }
 
+            var roles = await _userManager.GetRolesAsync(user);
+            // Nếu user chưa được gán role nào trong DB, mặc định coi là "User"
+            var primaryRole = roles.FirstOrDefault() ?? "User";
+
             return new AuthResponse 
             { 
-                Token = GenerateJwtToken(user),
-                Message = "Đăng nhập thành công"
+                Token = GenerateJwtToken(user, primaryRole),
+                Message = "Đăng nhập thành công",
+                Role = primaryRole
             };
         }
     
@@ -72,7 +77,7 @@ namespace RecipeApp.API.Features.Authentication
             };
         }
 
-        private string GenerateJwtToken(UserEntity user)
+        private string GenerateJwtToken(UserEntity user, string? primaryRole = null)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configuration["JwtSettings:SecretKey"]!);
@@ -83,10 +88,12 @@ namespace RecipeApp.API.Features.Authentication
                 {
                     new Claim(ClaimTypes.NameIdentifier, user.Id), // IdentityUser dùng string Id
                     new Claim(ClaimTypes.Email, user.Email!),
+                    new Claim(ClaimTypes.Role, primaryRole), // Lấy role đầu tiên hoặc mặc định "User",
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(double.Parse(_configuration["JwtSettings:ExpiryMinutes"]!)),
                 Issuer = _configuration["JwtSettings:Issuer"],
                 Audience = _configuration["JwtSettings:Audience"],
+
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 

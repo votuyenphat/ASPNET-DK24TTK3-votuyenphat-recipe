@@ -24,6 +24,10 @@ namespace RecipeApp.API.Infrastructure.Database
         public DbSet<FavoriteEntity> Favorites { get; set; }
         public DbSet<UserFollowEntity> UserFollows { get; set; }
 
+        public DbSet<SponsoredCampaignEntity> SponsoredCampaigns { get; set; }
+        public DbSet<SystemConfigEntity> SystemConfigs { get; set; }
+        public DbSet<ChallengeEntity> Challenges { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -40,10 +44,13 @@ namespace RecipeApp.API.Infrastructure.Database
             builder.Entity<RecipeEntity>().HasIndex(r => r.Slug).IsUnique();
             builder.Entity<TagEntity>().HasIndex(t => t.Slug).IsUnique();
             builder.Entity<TagEntity>().HasIndex(t => t.Name).IsUnique();   
+            builder.Entity<ChallengeEntity>().HasIndex(c => c.TagName).IsUnique();
 
             builder.Entity<RatingEntity>().HasKey(r => new { r.UserId, r.RecipeId });
             builder.Entity<FavoriteEntity>().HasKey(f => new { f.UserId, f.RecipeId });
             builder.Entity<UserFollowEntity>().HasKey(uf => new { uf.FollowerId, uf.FollowedId });
+
+            builder.Entity<SystemConfigEntity>().HasKey(c => c.Key);
 
             // Cấu hình khóa chính kép cho bảng RecipeIngredients
             builder.Entity<RecipeIngredientEntity>()
@@ -84,5 +91,6 @@ namespace RecipeApp.API.Infrastructure.Database
                 .HasForeignKey(uf => uf.FollowedId)
                 .OnDelete(DeleteBehavior.Restrict);
                 }
+
     }
 }

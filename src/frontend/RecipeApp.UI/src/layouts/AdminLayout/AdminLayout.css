@@ -1,0 +1,210 @@
+.admin-layout-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f8fafc;
+    font-family: var(--font-family-main);
+}
+
+/* SIDEBAR STYLING */
+.admin-sidebar {
+    width: 260px;
+    background-color: #0f172a;
+    /* Slate 900 cực kỳ chuyên nghiệp cho Admin */
+    color: #94a3b8;
+    display: flex;
+    flex-direction: column;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-right: 1px solid #1e293b;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    z-index: 100;
+}
+
+.admin-sidebar.collapsed {
+    width: 70px;
+}
+
+.sidebar-brand {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 24px;
+    border-bottom: 1px solid #1e293b;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.brand-text {
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.admin-tag {
+    font-size: 10px;
+    background-color: var(--color-primary);
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    vertical-align: middle;
+}
+
+.sidebar-menu {
+    flex-grow: 1;
+    padding: 24px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 14px;
+    color: #94a3b8;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.menu-item:hover,
+.menu-item.active {
+    background-color: #1e293b;
+    color: white;
+}
+
+.menu-item.active {
+    color: var(--color-primary);
+    background-color: #1e293b;
+}
+
+.sidebar-footer {
+    padding: 12px;
+    border-top: 1px solid #1e293b;
+}
+
+.logout-btn {
+    width: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+}
+
+.logout-btn:hover {
+    background-color: #881337;
+    color: #fda4af;
+}
+
+/* VIEWPORT & TOPBAR */
+.admin-main-viewport {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    /* Khắc phục lỗi tràn flexbox con */
+}
+
+.admin-topbar {
+    height: 70px;
+    background-color: white;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
+    position: sticky;
+    top: 0;
+    z-index: 90;
+}
+
+.topbar-left,
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.btn-toggle-sidebar {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #64748b;
+    padding: 4px;
+    border-radius: 6px;
+}
+
+.btn-toggle-sidebar:hover {
+    background-color: #f1f5f9;
+}
+
+.topbar-page-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #1e293b;
+    margin: 0;
+}
+
+.btn-switch-view {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border: 1px solid #cbd5e1;
+    background-color: white;
+    border-radius: var(--radius-pill);
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #475569;
+}
+
+.btn-switch-view:hover {
+    background-color: #f8fafc;
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.admin-profile-badge {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-left: 1px solid #e2e8f0;
+    padding-left: 16px;
+}
+
+.admin-profile-badge img {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.admin-meta {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-name {
+    font-size: 14px;
+    font-weight: bold;
+    color: #1e293b;
+}
+
+.admin-role {
+    font-size: 11px;
+    color: var(--color-primary);
+    font-weight: 500;
+}
+
+.admin-content-body {
+    padding: 32px;
+    flex-grow: 1;
+    overflow-y: auto;
+}

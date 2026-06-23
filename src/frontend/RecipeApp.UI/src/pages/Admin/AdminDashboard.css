@@ -1,0 +1,342 @@
+/* CONTAINER CẤU TRÚC DASHBOARD */
+.admin-dashboard-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.dashboard-hero-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dashboard-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+}
+
+.dashboard-subtitle {
+    color: #64748b;
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+.btn-refresh {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background-color: white;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 13px;
+    cursor: pointer;
+    color: #334155;
+    transition: all 0.2s ease;
+}
+
+.btn-refresh:hover {
+    background-color: #f8fafc;
+    border-color: #94a3b8;
+}
+
+.spinning {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* LƯỚI CARD KPI */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.kpi-card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.kpi-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+}
+
+.kpi-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.kpi-icon-box {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.kpi-icon-box.users {
+    background-color: #eff6ff;
+    color: #2563eb;
+}
+
+.kpi-icon-box.recipes {
+    background-color: #fff7ed;
+    color: #ea580c;
+}
+
+.kpi-icon-box.comments {
+    background-color: #fdf2f8;
+    color: #db2777;
+}
+
+.kpi-icon-box.sponsors {
+    background-color: #f0fdf4;
+    color: #16a34a;
+}
+
+.kpi-trend {
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 99px;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.kpi-trend.up {
+    background-color: #dcfce7;
+    color: #15803d;
+}
+
+.kpi-trend.down {
+    background-color: #ffe4e6;
+    color: #b91c1c;
+}
+
+.kpi-trend.steady {
+    background-color: #f1f5f9;
+    color: #475569;
+}
+
+.kpi-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.kpi-value {
+    font-size: 28px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+}
+
+.kpi-label {
+    font-size: 13px;
+    color: #64748b;
+    margin-top: 4px;
+}
+
+/* KHỐI BIỂU ĐỒ (CHARTS CONTAINER) */
+.dashboard-charts-row {
+    display: flex;
+    gap: 20px;
+}
+
+.chart-card {
+    background-color: white;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-card.large-chart {
+    flex: 2;
+    min-width: 0;
+}
+
+.chart-card.small-chart {
+    flex: 1;
+}
+
+.chart-card-title {
+    font-size: 15px;
+    font-weight: bold;
+    color: #1e293b;
+    margin: 0 0 20px 0;
+}
+
+.chart-body-mock {
+    position: relative;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* ANIMATION ĐỘC ĐÁO CHO ĐƯỜNG CONG BIỂU ĐỒ (CHART DRAWING) */
+.animated-chart-path {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: drawLine 2s ease-out forwards;
+}
+
+@keyframes drawLine {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+.chart-x-axis {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 12px;
+    border-top: 1px solid #f1f5f9;
+    font-size: 11px;
+    color: #94a3b8;
+}
+
+/* STYLE BIỂU ĐỒ DONUT TRÒN */
+.donut-center {
+    align-items: center;
+    gap: 20px;
+}
+
+.donut-svg {
+    transform: rotate(-90deg);
+}
+
+.donut-segment {
+    animation: donut-fill 1s ease-out forwards;
+}
+
+@keyframes donut-fill {
+    from {
+        stroke-dasharray: 0 100;
+    }
+}
+
+.donut-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 13px;
+    color: #475569;
+    width: 100%;
+}
+
+.dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 6px;
+}
+
+.dot.viet {
+    background-color: var(--color-primary);
+}
+
+.dot.au {
+    background-color: #3b82f6;
+}
+
+.dot.kieng {
+    background-color: #10b981;
+}
+
+/* TABLE RECENT BÀI VIẾT */
+.dashboard-table-card {
+    background-color: white;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    margin-top: 16px;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 14px;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 14px 24px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.admin-table th {
+    background-color: #f8fafc;
+    color: #475569;
+    font-weight: bold;
+}
+
+.admin-table tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+.badge {
+    font-size: 11px;
+    font-weight: bold;
+    padding: 4px 10px;
+    border-radius: 6px;
+    display: inline-block;
+}
+
+.badge.status-active {
+    background-color: #e0f2fe;
+    color: #0369a1;
+}
+
+.badge.status-locked {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+/* ANIMATION TỔNG THỂ */
+.animation-fade-in {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 1024px) {
+    .dashboard-charts-row {
+        flex-direction: column;
+    }
+}

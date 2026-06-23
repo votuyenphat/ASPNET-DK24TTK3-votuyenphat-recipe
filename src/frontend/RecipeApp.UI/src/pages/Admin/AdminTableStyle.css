@@ -1,0 +1,223 @@
+/* CONTAINER & HEADER */
+.admin-page-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.admin-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admin-page-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 4px 0;
+}
+
+.admin-page-subtitle {
+    color: #64748b;
+    font-size: 14px;
+    margin: 0;
+}
+
+/* NÚT BẤM ADMIN */
+.btn-admin-primary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-admin-primary:hover {
+    background-color: var(--color-primary-hover);
+    transform: translateY(-2px);
+}
+
+.btn-admin-cancel {
+    background-color: transparent;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-admin-cancel:hover {
+    background-color: #f1f5f9;
+}
+
+/* KHỐI BẢNG (TABLE CARD) */
+.admin-table-container {
+    background-color: white;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.admin-table-toolbar {
+    padding: 16px 24px;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.admin-search-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #f8fafc;
+    border: 1px solid #cbd5e1;
+    padding: 8px 16px;
+    border-radius: 8px;
+    width: 300px;
+}
+
+.admin-search-box input {
+    border: none;
+    background: transparent;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+}
+
+/* THIẾT KẾ BẢNG CHI TIẾT */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 14px;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 16px 24px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.admin-table th {
+    background-color: #f8fafc;
+    color: #64748b;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+}
+
+.admin-table tbody tr {
+    transition: background-color 0.2s;
+}
+
+.admin-table tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+.text-muted {
+    color: #94a3b8;
+}
+
+.text-center {
+    text-align: center;
+    padding: 40px !important;
+    color: #94a3b8;
+}
+
+/* CÁC NÚT THAO TÁC TRÊN BẢNG */
+.actions-cell {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.btn-icon.edit {
+    color: #3b82f6;
+}
+
+.btn-icon.edit:hover {
+    background-color: #eff6ff;
+}
+
+.btn-icon.delete {
+    color: #ef4444;
+}
+
+.btn-icon.delete:hover {
+    background-color: #fef2f2;
+}
+
+/* ADMIN MODAL (POPUP) */
+.admin-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.admin-modal {
+    background-color: white;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 16px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #0f172a;
+}
+
+.btn-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #94a3b8;
+}
+
+.modal-body {
+    padding: 24px;
+}
+
+.modal-footer {
+    padding: 16px 24px;
+    background-color: #f8fafc;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}

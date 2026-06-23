@@ -1,0 +1,350 @@
+/* =========================================
+   1. VISUAL NODE SYSTEM (TAGS)
+   ========================================= */
+.tag-cloud-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding-top: 12px;
+}
+
+.tag-node-card {
+    position: relative;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px;
+    width: 220px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+.tag-node-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    border-color: var(--color-primary-light);
+}
+
+.tag-heat-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background-color: var(--color-primary);
+}
+
+.tag-node-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.tag-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #1e293b;
+    cursor: pointer;
+}
+
+/* Inline Edit form */
+.inline-edit-box {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.inline-edit-box input {
+    width: 100px;
+    padding: 4px;
+    border: 1px solid var(--color-primary);
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+}
+
+.btn-ok {
+    background: #10b981;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 4px;
+    cursor: pointer;
+}
+
+.btn-cancel {
+    background: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 4px;
+    cursor: pointer;
+}
+
+.tag-node-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tag-count {
+    font-size: 12px;
+    color: #64748b;
+    font-weight: bold;
+}
+
+.tag-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.tag-actions button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #94a3b8;
+    transition: color 0.2s;
+}
+
+.tag-actions button:hover {
+    color: var(--color-primary);
+}
+
+.tag-actions button.delete:hover {
+    color: #ef4444;
+}
+
+/* =========================================
+   2. MODERATION GRID (RECIPES)
+   ========================================= */
+.moderation-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.mod-card {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    padding: 20px;
+    transition: all 0.3s;
+}
+
+.mod-card.locked {
+    background-color: #f8fafc;
+    border-color: #fecaca;
+    /* Viền đỏ nhạt báo hiệu bị khóa */
+    opacity: 0.8;
+}
+
+.mod-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.mod-author {
+    font-size: 13px;
+    color: #64748b;
+    font-weight: bold;
+}
+
+/* IOS TOGGLE SWITCH SIÊU MƯỢT */
+.ios-toggle {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+}
+
+.ios-toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background-color: #ef4444;
+    /* Mặc định Đỏ = Đang khóa */
+    transition: .3s;
+    border-radius: 24px;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .3s;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.ios-toggle input:checked+.toggle-slider {
+    background-color: #10b981;
+    /* Xanh = Hoạt động */
+}
+
+.ios-toggle input:checked+.toggle-slider:before {
+    transform: translateX(20px);
+}
+
+.mod-title {
+    font-size: 16px;
+    color: #0f172a;
+    margin: 0 0 16px 0;
+}
+
+.mod-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: #64748b;
+}
+
+.status-badge {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.status-badge.red {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.status-badge.green {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+/* =========================================
+   3. LIVE BUILDER (BENTO CONFIG)
+   ========================================= */
+.builder-split-view {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.builder-form-pane {
+    background: white;
+    padding: 32px;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+}
+
+.config-group {
+    margin-bottom: 24px;
+}
+
+.config-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #1e293b;
+}
+
+/* SMARTPHONE MOCKUP */
+.smartphone-mockup {
+    width: 320px;
+    height: 600px;
+    background: #1e293b;
+    border-radius: 40px;
+    padding: 12px;
+    position: relative;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 0 0 4px #cbd5e1;
+    margin: 0 auto;
+}
+
+.phone-notch {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 24px;
+    background: #1e293b;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    z-index: 10;
+}
+
+.phone-screen {
+    background: #f8fafc;
+    width: 100%;
+    height: 100%;
+    border-radius: 32px;
+    overflow: hidden;
+    position: relative;
+}
+
+.preview-header {
+    background: white;
+    padding: 36px 16px 12px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+    color: var(--color-primary);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.preview-bento-grid {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.preview-card {
+    padding: 16px;
+    border-radius: 16px;
+    color: white;
+}
+
+.preview-card h4 {
+    margin: 0 0 8px 0;
+    font-size: 15px;
+}
+
+.preview-card p {
+    margin: 0;
+    font-size: 12px;
+    opacity: 0.9;
+    line-height: 1.4;
+}
+
+.tip-card {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.challenge-card {
+    background: linear-gradient(135deg, var(--color-primary), #be123c);
+}
+
+.preview-btn {
+    margin-top: 12px;
+    background: white;
+    color: var(--color-primary);
+    border: none;
+    padding: 6px 12px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: bold;
+    width: fit-content;
+}

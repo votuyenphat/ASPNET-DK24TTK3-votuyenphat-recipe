@@ -4,6 +4,8 @@ import { authService } from "../../../services/authService";
 import "./LoginForm.css";
 import { FormField } from "../../atoms/molecules/FormField/FormField";
 import { Button } from "../../atoms/Button/Button";
+import { authUtils } from "../../../utils/authUtils";
+import toast from "react-hot-toast";
 
 export const LoginForm = () => {
   const navigate = useNavigate(); // Hook dùng để chuyển trang
@@ -48,10 +50,23 @@ export const LoginForm = () => {
 
       try {
         // GỌI DỊCH VỤ ĐĂNG NHẬP THẬT
-        await authService.login(formData.email, formData.password);
+        const res = await authService.login(formData.email, formData.password);
+        // console.log(res);
+        // authUtils.setAuth(res.data.token, {
+        //   id: res.data.userId,
+        //   displayName: res.data.displayName,
+        //   avatarUrl: res.data.avatarUrl,
+        //   role: res.data.role, // <-- Nhận giá trị "Admin" hoặc "User" từ BE
+        // });
 
-        // Đăng nhập và lưu localStorage thành công -> Chuyển về trang chủ
-        navigate("/");
+        toast.success("Chào mừng quay trở lại!", { id: res.displayName });
+        console.log(res);
+        // LOGIC ĐIỀU HƯỚNG THÔNG MINH THEO QUYỀN
+        if (res.role === "Admin") {
+          navigate("/admin/dashboard"); // Nếu là Admin -> Vào thẳng trung tâm điều khiển
+        } else {
+          navigate("/"); // Người dùng thông thường -> Về trang chủ feed công thức
+        }
       } catch (error) {
         // Hiển thị lỗi từ backend (sai pass, sai email...) lên giao diện
         setErrors({ ...errors, form: error.message });

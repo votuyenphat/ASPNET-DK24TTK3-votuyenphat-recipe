@@ -1,0 +1,371 @@
+/* =========================================
+   BỐ CỤC CHÍNH (CHIA 2 CỘT: TRÁI - PHẢI)
+   ========================================= */
+.bento-builder-layout {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 32px;
+    align-items: flex-start;
+    margin-top: 16px;
+}
+
+/* =========================================
+   CỘT TRÁI: BẢN ĐỒ LƯỚI (WIREFRAME GRID)
+   ========================================= */
+.bento-wireframe-container {
+    background-color: #f8fafc;
+    padding: 32px;
+    border-radius: 16px;
+    border: 2px dashed #cbd5e1;
+    display: flex;
+    justify-content: center;
+}
+
+.bento-wireframe-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 140px;
+    /* Thấp hơn giao diện User một chút để vừa màn hình Admin */
+    gap: 16px;
+    width: 100%;
+    max-width: 800px;
+}
+
+/* Kiểu dáng chung của các khối (Wire Block) */
+.wire-block {
+    background-color: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #64748b;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    user-select: none;
+}
+
+/* Khối mô phỏng chưa Active */
+.wire-block:hover {
+    border-color: #cbd5e1;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+/* Khối đang được CHỌN ĐỂ CHỈNH SỬA (Active) */
+.wire-block.active {
+    border-color: var(--color-primary);
+    background-color: #fff7ed;
+    /* Màu cam siêu nhạt */
+    color: var(--color-primary);
+    box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Các khối không cho phép chỉnh sửa (Category, Trending) */
+.wire-cat,
+.wire-trending {
+    cursor: not-allowed;
+    opacity: 0.6;
+    background-color: #f1f5f9;
+}
+
+.wire-cat:hover,
+.wire-trending:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: #e2e8f0;
+}
+
+/* --- Áp dụng định vị Grid (Giống hệt HomeBentoGrid) --- */
+.wire-hero {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.wire-cat {
+    grid-column: span 1;
+    grid-row: span 1;
+}
+
+.wire-ad {
+    grid-column: span 1;
+    grid-row: span 2;
+}
+
+.wire-trending {
+    grid-column: span 1;
+    grid-row: span 1;
+}
+
+.wire-tip {
+    grid-column: span 2;
+    grid-row: span 1;
+}
+
+.wire-chef {
+    grid-column: span 1;
+    grid-row: span 1;
+}
+
+.wire-challenge {
+    grid-column: span 1;
+    grid-row: span 1;
+}
+
+/* Nhãn (Badge) trạng thái (Auto/Manual) */
+.status-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background-color: #f1f5f9;
+    color: #475569;
+    font-size: 10px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 800;
+    transition: all 0.2s;
+}
+
+.wire-block.active .status-badge {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+
+/* =========================================
+   CỘT PHẢI: KHUNG CHỈNH SỬA (EDITOR PANEL)
+   ========================================= */
+.bento-editor-panel {
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+    position: sticky;
+    top: 90px;
+    /* Bám dính khi cuộn trang */
+}
+
+.editor-header {
+    background-color: #f8fafc;
+    padding: 16px 20px;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #0f172a;
+}
+
+.editor-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.editor-body {
+    padding: 24px;
+}
+
+/* Các trường Form (Form elements) */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    color: #1e293b;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.radio-group-inline {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background-color: #f8fafc;
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.radio-group-inline label {
+    margin: 0;
+    font-weight: normal;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: #334155;
+}
+
+/* Tùy biến radio input chuẩn màu thương hiệu */
+.radio-group-inline input[type="radio"] {
+    accent-color: var(--color-primary);
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.base-input,
+.base-textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14px;
+    transition: all 0.2s;
+    background-color: white;
+}
+
+.base-input:focus,
+.base-textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px var(--color-primary-light);
+}
+
+.text-muted {
+    display: block;
+    color: #64748b;
+    font-size: 12px;
+    margin-top: 6px;
+    line-height: 1.4;
+}
+
+/* Tùy chỉnh thẻ select giống hệ thống thiết kế hiện đại */
+.base-select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14px;
+    background-color: white;
+    color: #0f172a;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.base-select:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px var(--color-primary-light);
+}
+
+/* DANH SÁCH VIÊN THUỐC TÀI TRỢ (SPONSORED PILLS LIST) */
+.sponsored-pills-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
+    max-height: 250px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.sponsored-pill {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f1f5f9;
+    /* Slate 100 mượt mà */
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    animation: slideDown 0.2s ease-out;
+}
+
+.pill-text {
+    font-size: 13px;
+    font-weight: 500;
+    color: #334155;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 85%;
+}
+
+.btn-remove-pill {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+.btn-remove-pill:hover {
+    background-color: #fee2e2;
+    color: #ef4444;
+}
+
+/* Thêm badge đếm số lượng món tài trợ trên ô bento ad trái */
+.wire-block.wire-ad .status-badge.count {
+    background-color: #3b82f6;
+    color: white;
+}
+
+/* =========================================
+   RESPONSIVE DESIGN CHO ADMIN
+   ========================================= */
+@media (max-width: 1200px) {
+
+    /* Chuyển thành 1 cột trên màn hình nhỏ/Tablet */
+    .bento-builder-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .bento-editor-panel {
+        position: static;
+    }
+}
+
+@media (max-width: 768px) {
+    .bento-wireframe-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Cân đối lại tỷ lệ lưới cho Mobile */
+    .wire-hero {
+        grid-column: span 2;
+    }
+
+    .wire-ad {
+        grid-column: span 2;
+        grid-row: span 1;
+    }
+
+    .wire-cat {
+        grid-column: span 1;
+    }
+
+    .wire-trending {
+        grid-column: span 1;
+    }
+
+    .wire-tip {
+        grid-column: span 2;
+    }
+
+    .wire-chef {
+        grid-column: span 1;
+    }
+
+    .wire-challenge {
+        grid-column: span 1;
+    }
+}

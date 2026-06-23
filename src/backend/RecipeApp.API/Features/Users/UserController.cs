@@ -56,7 +56,7 @@ namespace RecipeApp.API.Features.Users
                 // Trả về thông tin mới để Frontend cập nhật localStorage
                 User = new {
                     DisplayName = request.DisplayName,
-                    AvatarUrl = request.AvatarUrl
+                    AvatarUrl = request.AvatarUrl,
                 }
             });
         }

@@ -46,4 +46,21 @@ export const authUtils = {
       return null;
     }
   },
+
+  isLoggedIn: () => {
+    const token = localStorage.getItem("token");
+    return !!token;
+  },
+
+  // HÀM KIỂM TRA NHANH XEM CÓ PHẢI ADMIN KHÔNG
+  isAdmin: () => {
+    const user = authUtils.getUserInfo();
+    return user?.role === "Admin"; // Kiểm tra quyền admin
+  },
+
+  logout: () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userInfo");
+    window.location.href = "/";
+  },
 };

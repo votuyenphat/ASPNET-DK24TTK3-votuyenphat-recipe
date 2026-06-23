@@ -1,0 +1,29 @@
+.user-role-badge {
+    display: inline-block;
+    font-size: 10px;
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    font-weight: bold;
+    margin-top: 4px;
+    text-transform: uppercase;
+}
+
+/* Điểm nhấn cho dòng link vào trang quản trị */
+.dropdown-item.admin-link {
+    color: #e11d48;
+    /* Màu đỏ đô rực rỡ mang tính hệ thống/bảo mật */
+    background-color: #fff1f2;
+    /* Nền hồng nhẹ nhõm */
+    font-weight: var(--font-weight-bold);
+    border-radius: var(--radius-md);
+    margin-bottom: 4px;
+    transition: all 0.2s ease;
+}
+
+.dropdown-item.admin-link:hover {
+    background-color: #ffe4e6;
+    transform: translateX(4px);
+    /* Hiệu ứng đẩy nhẹ sang phải khi di chuột */
+}

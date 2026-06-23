@@ -23,6 +23,7 @@ namespace RecipeApp.API.Features.Users
         public async Task<UserProfileResponse?> GetProfileByIdAsync(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
+
             if (user == null) return null;
 
             return new UserProfileResponse
@@ -33,6 +34,7 @@ namespace RecipeApp.API.Features.Users
                 Bio = user.Bio,
                 AvatarUrl = user.AvatarUrl ?? avatarUrl,
                 CoverUrl = user.CoverUrl,
+                Role = (await _userManager.GetRolesAsync(user)).FirstOrDefault() ?? "User",
                 TotalRecipes = user.TotalRecipes,
                 TotalFollowers = user.TotalFollowers,
                 TotalFollowing = user.TotalFollowing,
