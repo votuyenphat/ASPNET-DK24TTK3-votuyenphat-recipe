@@ -113,17 +113,13 @@ namespace RecipeApp.API.Features.Recipes
         [HttpGet("{slug}")]
         public async Task<IActionResult> GetBySlug(string slug)
         {
-            if (string.IsNullOrEmpty(slug))
-            {
-                return BadRequest(new { Message = "Đường dẫn công thức không hợp lệ." });
-            }
+            if (string.IsNullOrEmpty(slug)) return BadRequest();
 
-            var recipe = await _recipeService.GetRecipeBySlugAsync(slug);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var recipe = await _recipeService.GetRecipeBySlugAsync(slug, userId);
             
-            if (recipe == null)
-            {
-                return NotFound(new { Message = "Không tìm thấy công thức nấu ăn yêu cầu hoặc bài viết đã bị xóa." });
-            }
+            if (recipe == null) return NotFound(new { Message = "Không tìm thấy công thức." });
 
             return Ok(recipe);
         }

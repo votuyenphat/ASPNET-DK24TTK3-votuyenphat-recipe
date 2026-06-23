@@ -34,7 +34,10 @@ export const ProfilePage = () => {
     fetchProfileData();
   }, []);
 
-  const openDeleteModal = (recipe) => {
+  const openDeleteModal = (e, recipe) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     setRecipeToDelete(recipe);
     setIsDeleteModalOpen(true);
   };
@@ -194,15 +197,17 @@ export const ProfilePage = () => {
                   <div className="admin-actions-overlay">
                     <button
                       className="btn-action edit"
-                      onClick={() =>
-                        (window.location.href = `/edit-recipe/${recipe.slug}`)
-                      }
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        window.location.href = `/edit-recipe/${recipe.slug}`;
+                      }}
                     >
                       <Edit size={16} /> Sửa
                     </button>
                     <button
                       className="btn-action delete"
-                      onClick={() => openDeleteModal(recipe)}
+                      onClick={(e) => openDeleteModal(e, recipe)}
                     >
                       <Trash2 size={16} /> Xóa
                     </button>

@@ -37,6 +37,14 @@ namespace RecipeApp.API.Infrastructure.Database.Entities
         
         public ICollection<RecipeIngredientEntity> Ingredients { get; set; } = new List<RecipeIngredientEntity>();
         public ICollection<InstructionStepEntity> InstructionSteps { get; set; } = new List<InstructionStepEntity>();
+
+        public ICollection<RecipeTagEntity> RecipeTags { get; set; } = new List<RecipeTagEntity>();
+        public ICollection<RatingEntity> Ratings { get; set; } = new List<RatingEntity>();
+        
+        // Nên thêm luôn Comments và Favorites để sau này truy vấn không bị lỗi tương tự
+        public ICollection<CommentEntity> Comments { get; set; } = new List<CommentEntity>();
+        public ICollection<FavoriteEntity> Favorites { get; set; } = new List<FavoriteEntity>();
+
         // Tạm thời bỏ qua Images, Tags, Ratings, Comments để focus luồng chính trước
     }
 }

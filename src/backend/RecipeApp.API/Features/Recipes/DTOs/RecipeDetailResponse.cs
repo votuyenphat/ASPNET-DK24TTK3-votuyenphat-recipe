@@ -29,6 +29,10 @@ namespace RecipeApp.API.Features.Recipes.DTOs
         public int AuthorFollowers { get; set; } // Số người theo dõi tác giả
         public List<string> Tags { get; set; } = new(); // Danh sách hashtag
 
+        public int FavoriteCount { get; set; } // Số người đã yêu thích công thức này
+        public bool IsFavorited { get; set; } // Current user đã tim chưa?
+        public bool IsFollowing { get; set; } // Current user đã theo dõi tác giả chưa?
+
         // Danh sách dữ liệu lồng ghép
         public List<RecipeIngredientDetailDto> Ingredients { get; set; } = new();
         public List<InstructionStepDetailDto> Steps { get; set; } = new();

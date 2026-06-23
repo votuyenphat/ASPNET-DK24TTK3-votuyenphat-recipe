@@ -19,6 +19,11 @@ namespace RecipeApp.API.Infrastructure.Database
         public DbSet<TagEntity> Tags { get; set; }
         public DbSet<RecipeTagEntity> RecipeTags { get; set; }
 
+        public DbSet<RatingEntity> Ratings { get; set; }
+        public DbSet<CommentEntity> Comments { get; set; }
+        public DbSet<FavoriteEntity> Favorites { get; set; }
+        public DbSet<UserFollowEntity> UserFollows { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -35,6 +40,10 @@ namespace RecipeApp.API.Infrastructure.Database
             builder.Entity<RecipeEntity>().HasIndex(r => r.Slug).IsUnique();
             builder.Entity<TagEntity>().HasIndex(t => t.Slug).IsUnique();
             builder.Entity<TagEntity>().HasIndex(t => t.Name).IsUnique();   
+
+            builder.Entity<RatingEntity>().HasKey(r => new { r.UserId, r.RecipeId });
+            builder.Entity<FavoriteEntity>().HasKey(f => new { f.UserId, f.RecipeId });
+            builder.Entity<UserFollowEntity>().HasKey(uf => new { uf.FollowerId, uf.FollowedId });
 
             // Cấu hình khóa chính kép cho bảng RecipeIngredients
             builder.Entity<RecipeIngredientEntity>()
@@ -55,6 +64,25 @@ namespace RecipeApp.API.Infrastructure.Database
                 .OnDelete(DeleteBehavior.SetNull); // Khi xóa Category, Recipe sẽ mang CategoryId = null
 
             builder.Entity<RecipeTagEntity>().HasKey(rt => new { rt.RecipeId, rt.TagId });
-        }
+
+            builder.Entity<CommentEntity>()
+                .HasOne(c => c.ParentComment)
+                .WithMany(c => c.Replies)
+                .HasForeignKey(c => c.ParentCommentId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Cấu hình UserFollow để tránh lỗi vòng lặp (Multiple cascade paths)
+            builder.Entity<UserFollowEntity>()
+                .HasOne(uf => uf.Follower)
+                .WithMany()
+                .HasForeignKey(uf => uf.FollowerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<UserFollowEntity>()
+                .HasOne(uf => uf.Followed)
+                .WithMany()
+                .HasForeignKey(uf => uf.FollowedId)
+                .OnDelete(DeleteBehavior.Restrict);
+                }
     }
 }

@@ -231,18 +231,35 @@ namespace RecipeApp.API.Features.Recipes
             return str;
         }
 
-        public async Task<RecipeDetailResponse?> GetRecipeBySlugAsync(string slug)
+        public async Task<RecipeDetailResponse?> GetRecipeBySlugAsync(string slug, string? currentUserId = null)
         {
             // Tìm kiếm công thức kèm theo nạp các bảng liên quan (Eager Loading)
-            var recipe = await _context.Recipes
+           var recipe = await _context.Recipes
                 .Include(r => r.Author)
                 .Include(r => r.Category)
                 .Include(r => r.InstructionSteps)
-                .Include(r => r.Ingredients)
-                    .ThenInclude(ri => ri.Ingredient) // Chọc từ bảng trung gian vào bảng nguyên liệu gốc để lấy Name
+                .Include(r => r.RecipeTags).ThenInclude(rt => rt.Tag)
+                .Include(r => r.Ingredients).ThenInclude(ri => ri.Ingredient)
                 .FirstOrDefaultAsync(r => r.Slug == slug && !r.IsDeleted);
 
             if (recipe == null) return null;
+
+            bool isFavorited = false;
+            bool isFollowing = false;
+
+            if (!string.IsNullOrEmpty(currentUserId))
+            {
+                // Check bảng Favorites
+                isFavorited = await _context.Favorites
+                    .AnyAsync(f => f.UserId == currentUserId && f.RecipeId == recipe.Id);
+                    
+                // Check bảng UserFollows (không tính trường hợp tự xem bài mình)
+                if (currentUserId != recipe.AuthorId)
+                {
+                    isFollowing = await _context.UserFollows
+                        .AnyAsync(uf => uf.FollowerId == currentUserId && uf.FollowedId == recipe.AuthorId);
+                }
+            }
 
             // Ánh xạ dữ liệu sang DTO trả về
             return new RecipeDetailResponse
@@ -267,6 +284,9 @@ namespace RecipeApp.API.Features.Recipes
                 CommentCount = recipe.CommentCount,
                 AverageRating = recipe.AverageRating,
                 AuthorFollowers = recipe.Author!.TotalFollowers,
+                IsFavorited = isFavorited,
+                IsFollowing = isFollowing,
+                FavoriteCount = recipe.FavoriteCount,
         
                 // Map mảng Tag
                 Tags = recipe.RecipeTags.Select(rt => rt.Tag!.Name).ToList(),
