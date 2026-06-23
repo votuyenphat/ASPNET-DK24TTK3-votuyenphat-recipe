@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: recipe-db
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "YourStrong@Password123"
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql-data:/var/opt/mssql
+
+  backend:
+    image: recipe-backend
+    container_name: recipe-backend
+    build:
+      context: ./src/backend/RecipeApp.API
+      dockerfile: Dockerfile
+    ports:
+      - "5242:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Server=db,1433;Database=RecipeAppDb;User Id=sa;Password=YourStrong@Password123;TrustServerCertificate=True;"
+    depends_on:
+      - db
+
+  frontend:
+    image: recipe-frontend
+    container_name: recipe-frontend
+    build:
+      context: ./src/frontend/RecipeApp.UI
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./src/frontend/RecipeApp.UI:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+volumes:
+  mssql-data:

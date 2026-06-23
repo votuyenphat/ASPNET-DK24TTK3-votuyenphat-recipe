@@ -98,6 +98,26 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<AppDbContext>();
     
+    int retryCount = 0;
+    while (true)
+    {
+        try
+        {
+            context.Database.Migrate();
+            break;
+        }
+        catch (Exception ex)
+        {
+            retryCount++;
+            if (retryCount > 12)
+            {
+                throw;
+            }
+            Console.WriteLine($"Database migration failed (SQL Server might not be ready yet). Retrying ({retryCount}/12) in 5 seconds...");
+            System.Threading.Thread.Sleep(5000);
+        }
+    }
+    
     // Kiểm tra xem đã có dữ liệu chưa, nếu chưa thì chèn danh mục mẫu
     if (!context.Categories.Any())
     {
