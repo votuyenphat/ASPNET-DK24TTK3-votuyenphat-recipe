@@ -41,11 +41,13 @@ export const Header = () => {
 
           {userInfo ? (
             <div className="user-menu">
-              <img
-                src={userInfo.avatarUrl || "https://via.placeholder.com/40"}
-                alt="Avatar"
-                className="user-avatar"
-              />
+              <Link to="/profile">
+                <img
+                  src={userInfo.avatarUrl || "https://via.placeholder.com/40"}
+                  alt="Avatar"
+                  className="user-avatar"
+                />
+              </Link>
               <span className="user-name">{userInfo.displayName || "An"}</span>
               <button onClick={handleLogout} className="btn-logout">
                 <LogOut size={20} />

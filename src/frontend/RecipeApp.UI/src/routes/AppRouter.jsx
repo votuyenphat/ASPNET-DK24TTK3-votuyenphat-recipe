@@ -6,6 +6,8 @@ import { RegisterPage } from "../pages/User/RegisterPage";
 import { HomePage } from "../pages/User/HomePage";
 import { RecipeDetailPage } from "../pages/User/RecipeDetailPage";
 import { WriteRecipePage } from "../pages/User/WriteRecipePage";
+import { ProfilePage } from "../pages/User/ProfilePage";
+import { EditRecipePage } from "../pages/User/EditRecipePage";
 
 // Mock pages
 const AdminDashboard = () => <div>Dashboard Quản trị</div>;
@@ -21,6 +23,8 @@ export const AppRouter = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/recipe/:slug" element={<RecipeDetailPage />} />
           <Route path="/recipe-writer" element={<WriteRecipePage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/edit-recipe/:slug" element={<EditRecipePage />} />
         </Route>
 
         {/* Nhóm Route dành cho Admin */}

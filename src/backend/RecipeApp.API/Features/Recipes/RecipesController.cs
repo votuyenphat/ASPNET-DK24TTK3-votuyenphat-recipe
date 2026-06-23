@@ -52,6 +52,64 @@ namespace RecipeApp.API.Features.Recipes
             }
         }
    
+        [Authorize] // Bắt buộc đăng nhập
+        [HttpGet("my-recipes")]
+        public async Task<IActionResult> GetMyRecipes()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized(new { Message = "Không thể định danh người dùng." });
+            }
+
+            var recipes = await _recipeService.GetMyRecipesAsync(userId);
+            return Ok(recipes);
+        }
+
+        [Authorize]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized(new { Message = "Không thể định danh người dùng." });
+            }
+
+            var success = await _recipeService.DeleteRecipeAsync(id, userId);
+            
+            if (!success)
+            {
+                // Có thể do ID không tồn tại, hoặc user này không phải là tác giả của bài viết
+                return BadRequest(new { Message = "Không thể xóa công thức. Bạn không có quyền hoặc bài viết không tồn tại." });
+            }
+
+            return Ok(new { Message = "Đã xóa công thức thành công." });
+        }
+
+        // PUT: /api/features/recipes/{id}
+        [Authorize]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] RecipeCreateRequest request)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId)) return Unauthorized(new { Message = "Lỗi xác thực." });
+
+            try
+            {
+                var success = await _recipeService.UpdateRecipeAsync(id, userId, request);
+                if (!success) return BadRequest(new { Message = "Không thể cập nhật. Bài viết không tồn tại hoặc bạn không có quyền." });
+
+                return Ok(new { Message = "Cập nhật công thức thành công!" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = "Có lỗi xảy ra khi cập nhật.", Detail = ex.Message });
+            }
+        }
+
         [HttpGet("{slug}")]
         public async Task<IActionResult> GetBySlug(string slug)
         {

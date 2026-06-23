@@ -109,6 +109,117 @@ namespace RecipeApp.API.Features.Recipes
             return (recipe.Id, recipe.Slug ?? string.Empty);
         }
 
+        public async Task<List<RecipeSummaryResponse>> GetMyRecipesAsync(string userId)
+        {
+            return await _context.Recipes
+                .Where(r => r.AuthorId == userId && !r.IsDeleted)
+                .OrderByDescending(r => r.CreatedAt)
+                .Select(r => new RecipeSummaryResponse
+                {
+                    Id = r.Id,
+                    Title = r.Title,
+                    Slug = r.Slug,
+                    CoverImageUrl = r.CoverImageUrl,
+                    TotalTimeMinutes = r.PrepTimeMinutes + r.CookTimeMinutes,
+                    FavoriteCount = r.FavoriteCount,
+                    AuthorName = string.Empty, // Không cần hiển thị tên tác giả ở trang cá nhân
+                    AuthorAvatar = string.Empty 
+                    // Bạn có thể cân nhắc thêm thuộc tính Status (Bản nháp, Chờ duyệt, Đã duyệt) vào DTO này sau
+                })
+                .ToListAsync();
+        }
+
+        public async Task<bool> DeleteRecipeAsync(int recipeId, string userId)
+        {
+            // Tìm công thức hợp lệ (đúng ID và đúng Tác giả)
+            var recipe = await _context.Recipes
+                .FirstOrDefaultAsync(r => r.Id == recipeId && r.AuthorId == userId && !r.IsDeleted);
+
+            if (recipe == null) return false;
+
+            // Thực hiện Xóa mềm (Soft Delete)
+            recipe.IsDeleted = true;
+
+            // Giảm số lượng công thức của User xuống
+            var user = await _context.Users.FindAsync(userId);
+            if (user != null && user.TotalRecipes > 0)
+            {
+                user.TotalRecipes -= 1;
+            }
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> UpdateRecipeAsync(int recipeId, string userId, RecipeCreateRequest request)
+        {
+            var recipe = await _context.Recipes
+                .Include(r => r.Ingredients)
+                .Include(r => r.InstructionSteps)
+                .FirstOrDefaultAsync(r => r.Id == recipeId && r.AuthorId == userId && !r.IsDeleted);
+
+            if (recipe == null) return false;
+
+            // 1. Cập nhật thông tin cơ bản
+            recipe.Title = request.Title;
+            recipe.Description = request.Description;
+            recipe.CoverImageUrl = request.CoverImageUrl;
+            recipe.CategoryId = request.CategoryId;
+            recipe.PrepTimeMinutes = request.PrepTimeMinutes;
+            recipe.CookTimeMinutes = request.CookTimeMinutes;
+            recipe.Servings = request.Servings;
+            recipe.Difficulty = request.Difficulty;
+            recipe.UpdatedAt = DateTime.UtcNow;
+
+            // 2. Xóa các liên kết Nguyên liệu & Bước làm cũ
+            _context.RecipeIngredients.RemoveRange(recipe.Ingredients);
+            _context.InstructionSteps.RemoveRange(recipe.InstructionSteps);
+
+            // 3. Thêm lại Nguyên liệu mới (y hệt luồng Create)
+            var distinctIngredients = request.Ingredients
+                .Where(i => !string.IsNullOrWhiteSpace(i.Name))
+                .GroupBy(i => i.Name.Trim().ToLower())
+                .Select(g => g.First())
+                .ToList();
+
+            foreach (var ingDto in distinctIngredients)
+            {
+                var ingredientName = ingDto.Name.Trim().ToLower();
+                var existingIngredient = await _context.Ingredients
+                    .FirstOrDefaultAsync(x => x.Name.ToLower() == ingredientName);
+
+                if (existingIngredient == null)
+                {
+                    existingIngredient = new IngredientEntity { Name = ingDto.Name.Trim() };
+                    _context.Ingredients.Add(existingIngredient);
+                    await _context.SaveChangesAsync();
+                }
+
+                recipe.Ingredients.Add(new RecipeIngredientEntity
+                {
+                    IngredientId = existingIngredient.Id,
+                    Amount = ingDto.Amount,
+                    Unit = ingDto.Unit,
+                    Note = ingDto.Note,
+                    SortOrder = request.Ingredients.IndexOf(ingDto)
+                });
+            }
+
+            // 4. Thêm lại Các bước làm mới
+            for (int i = 0; i < request.Steps.Count; i++)
+            {
+                recipe.InstructionSteps.Add(new InstructionStepEntity
+                {
+                    StepOrder = i + 1,
+                    Content = request.Steps[i].Content,
+                    ImageUrl = request.Steps[i].ImageUrl
+                });
+            }
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
         // Hàm hỗ trợ tạo URL thân thiện (Slug)
         private string GenerateSlug(string phrase)
         {
@@ -152,6 +263,13 @@ namespace RecipeApp.API.Features.Recipes
                 AuthorName = recipe.Author!.DisplayName,
                 AuthorAvatar = recipe.Author.AvatarUrl,
                 CategoryName = recipe.Category?.Name,
+                CategoryId = recipe.CategoryId,
+                CommentCount = recipe.CommentCount,
+                AverageRating = recipe.AverageRating,
+                AuthorFollowers = recipe.Author!.TotalFollowers,
+        
+                // Map mảng Tag
+                Tags = recipe.RecipeTags.Select(rt => rt.Tag!.Name).ToList(),
                 
                 Ingredients = recipe.Ingredients
                     .OrderBy(ri => ri.SortOrder)

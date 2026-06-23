@@ -21,7 +21,13 @@ namespace RecipeApp.API.Features.Recipes.DTOs
         public string? AuthorAvatar { get; set; }
 
         // Tên danh mục (Category)
+        public int? CategoryId { get; set; } // Thêm dòng này để Frontend load dropdown
         public string? CategoryName { get; set; }
+
+        public int CommentCount { get; set; }
+        public decimal AverageRating { get; set; }
+        public int AuthorFollowers { get; set; } // Số người theo dõi tác giả
+        public List<string> Tags { get; set; } = new(); // Danh sách hashtag
 
         // Danh sách dữ liệu lồng ghép
         public List<RecipeIngredientDetailDto> Ingredients { get; set; } = new();

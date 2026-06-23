@@ -1,0 +1,129 @@
+.edit-recipe-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--space-xl) 0 100px 0;
+    /* Padding bottom để không bị lấp bởi sticky footer */
+}
+
+.edit-header {
+    margin-bottom: var(--space-xl);
+    text-align: center;
+}
+
+.edit-header h1 {
+    font-size: var(--font-size-xxl);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-xs);
+}
+
+.edit-header p {
+    color: var(--color-text-secondary);
+}
+
+.edit-form-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+}
+
+.edit-section {
+    background-color: var(--color-bg-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: var(--space-xl);
+}
+
+.edit-section .section-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-lg);
+    color: var(--color-primary);
+    border-bottom: 2px solid var(--color-bg-main);
+    padding-bottom: var(--space-sm);
+}
+
+/* Tái sử dụng form CSS từ WriteRecipePage */
+.form-row,
+.form-group,
+.base-input,
+.base-textarea,
+.cover-upload-zone,
+.upload-placeholder,
+.cover-preview,
+.file-input-hidden,
+.dynamic-row,
+.drag-handle,
+.flex-2,
+.flex-1,
+.btn-icon-danger,
+.btn-add-dashed,
+.step-dynamic-card,
+.step-card-header,
+.btn-icon-danger-text,
+.step-upload-placeholder,
+.step-img-preview-box,
+.btn-change-img {
+    /* Các class này hoàn toàn tương thích với CSS của WriteRecipePage.
+     Trong React, bạn có thể copy các class này sang đây, hoặc tạo một file 
+     `SharedForm.css` dùng chung cho cả 2 trang để tối ưu code. */
+}
+
+/* =======================================
+   STICKY FOOTER (THANH CÔNG CỤ NỔI)
+   ======================================= */
+.edit-sticky-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid #e2e8f0;
+    padding: var(--space-md) 0;
+    display: flex;
+    justify-content: center;
+    gap: var(--space-md);
+    z-index: 100;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.btn-cancel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #f1f5f9;
+    color: var(--color-text-primary);
+    border: none;
+    padding: 12px 24px;
+    border-radius: var(--radius-pill);
+    font-weight: var(--font-weight-bold);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-cancel:hover {
+    background-color: #e2e8f0;
+}
+
+.btn-save {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 12px 32px;
+    border-radius: var(--radius-pill);
+    font-weight: var(--font-weight-bold);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-save:hover {
+    background-color: var(--color-primary-hover);
+}
+
+.btn-save:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}

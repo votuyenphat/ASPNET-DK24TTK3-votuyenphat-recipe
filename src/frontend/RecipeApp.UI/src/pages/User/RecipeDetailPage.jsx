@@ -13,6 +13,8 @@ import {
   Flame,
   CookingPot,
   Utensils,
+  Star,
+  MessageCircle,
 } from "lucide-react";
 import apiClient from "../../services/apiClient";
 import "./RecipeDetailPage.css";
@@ -40,6 +42,23 @@ export const RecipeDetailPage = () => {
     };
     fetchRecipeDetail();
   }, [slug]);
+
+  const getYoutubeEmbedUrl = (url) => {
+    if (!url) return "";
+
+    const shortMatch = url.match(/youtu\.be\/([^?]+)/);
+    if (shortMatch) {
+      return `https://www.youtube.com/embed/${shortMatch[1]}`;
+    }
+
+    // youtube.com/watch?v=VIDEO_ID
+    const longMatch = url.match(/[?&]v=([^&]+)/);
+    if (longMatch) {
+      return `https://www.youtube.com/embed/${longMatch[1]}`;
+    }
+
+    return "";
+  };
 
   const toggleIngredient = (id) => {
     setCheckedIngredients((prev) => ({
@@ -200,17 +219,21 @@ export const RecipeDetailPage = () => {
             <div className="sidebar-widget metrics-widget">
               <div className="metric-row">
                 <div className="metric-item">
-                  <Clock size={20} className="icon-p" />
+                  <Star size={20} color="#f59e0b" className="icon-p" />
                   <div>
-                    <span className="m-label">Chuẩn bị</span>
-                    <span className="m-val">{recipe.prepTimeMinutes} phút</span>
+                    <span className="m-label">Đánh giá</span>
+                    <span className="m-val">
+                      {recipe.averageRating > 0
+                        ? `${recipe.averageRating}/5`
+                        : "Chưa có"}
+                    </span>
                   </div>
                 </div>
                 <div className="metric-item">
-                  <Flame size={20} className="icon-p" />
+                  <MessageCircle size={20} className="icon-p" />
                   <div>
-                    <span className="m-label">Chế biến</span>
-                    <span className="m-val">{recipe.cookTimeMinutes} phút</span>
+                    <span className="m-label">Bình luận</span>
+                    <span className="m-val">{recipe.commentCount}</span>
                   </div>
                 </div>
               </div>
@@ -237,12 +260,18 @@ export const RecipeDetailPage = () => {
                   recipe.authorAvatar ||
                   `https://ui-avatars.com/api/?name=${recipe.authorName}`
                 }
-                alt={recipe.authorName}
+                alt="author"
                 className="chef-avatar-large"
               />
               <div className="chef-meta">
                 <span className="widget-label">Người chia sẻ</span>
                 <h4 className="chef-title-name">{recipe.authorName}</h4>
+                {/* HIỂN THỊ SỐ FOLLOWER Ở ĐÂY */}
+                <span
+                  style={{ fontSize: "12px", color: "var(--color-text-hint)" }}
+                >
+                  {recipe.authorFollowers} người theo dõi
+                </span>
               </div>
               <button className="btn-follow-chef">Theo dõi</button>
             </div>
@@ -259,11 +288,47 @@ export const RecipeDetailPage = () => {
 
             {/* Banner Video bổ trợ nấu ăn nếu có link Youtube */}
             {recipe.youtubeVideoUrl && (
-              <div className="sidebar-widget video-link-widget">
-                <div className="video-thumb-mock">
-                  <Play size={32} color="white" />
-                  <span>Xem video hướng dẫn</span>
+              <div className="sidebar-widget">
+                <div className="video-wrapper">
+                  <iframe
+                    width="100%"
+                    height="220"
+                    src={getYoutubeEmbedUrl(recipe.youtubeVideoUrl)}
+                    title="YouTube video player"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
                 </div>
+              </div>
+            )}
+
+            {recipe.tags && recipe.tags.length > 0 && (
+              <div
+                className="recipe-tags-section"
+                style={{
+                  marginTop: "32px",
+                  display: "flex",
+                  gap: "8px",
+                  flexWrap: "wrap",
+                }}
+              >
+                {recipe.tags.map((tag, index) => (
+                  <span
+                    key={index}
+                    style={{
+                      backgroundColor: "var(--color-bg-main)",
+                      color: "var(--color-primary)",
+                      padding: "6px 12px",
+                      borderRadius: "99px",
+                      fontSize: "12px",
+                      fontWeight: "bold",
+                      cursor: "pointer",
+                    }}
+                  >
+                    #{tag}
+                  </span>
+                ))}
               </div>
             )}
           </div>
