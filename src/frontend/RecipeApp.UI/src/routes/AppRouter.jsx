@@ -9,6 +9,7 @@ import { WriteRecipePage } from "../pages/User/WriteRecipePage";
 import { ProfilePage } from "../pages/User/ProfilePage";
 import { EditRecipePage } from "../pages/User/EditRecipePage";
 import { EditProfilePage } from "../pages/User/EditProfilePage";
+import { SearchPage } from "../pages/User/SearchPage";
 
 // Mock pages
 const AdminDashboard = () => <div>Dashboard Quản trị</div>;
@@ -27,6 +28,7 @@ export const AppRouter = () => {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/edit-recipe/:slug" element={<EditRecipePage />} />
           <Route path="/edit-profile" element={<EditProfilePage />} />
+          <Route path="/search" element={<SearchPage />} />
         </Route>
 
         {/* Nhóm Route dành cho Admin */}

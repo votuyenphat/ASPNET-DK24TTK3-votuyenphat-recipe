@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { ChefHat, Search, LogOut } from "lucide-react";
 import { authUtils } from "../../../utils/authUtils";
 import "./Header.css";
+import { HeaderSearch } from "../HeaderSearch/HeaderSearch";
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -23,14 +24,7 @@ export const Header = () => {
 
         {/* Search Bar (Molecule - Viết gộp tạm ở đây, sau này tách ra file riêng) */}
         <div className="header-search">
-          <input
-            type="text"
-            placeholder="Tìm kiếm công thức, nguyên liệu..."
-            className="search-input"
-          />
-          <button className="search-btn">
-            <Search size={18} color="var(--color-text-hint)" />
-          </button>
+          <HeaderSearch />
         </div>
 
         {/* User Actions */}

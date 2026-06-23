@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Clock,
@@ -26,6 +26,7 @@ import { ConfirmModal } from "../../components/molecules/ConfirmModal/ConfirmMod
 
 export const RecipeDetailPage = () => {
   const { slug } = useParams();
+  const navigate = useNavigate();
   const [recipe, setRecipe] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 

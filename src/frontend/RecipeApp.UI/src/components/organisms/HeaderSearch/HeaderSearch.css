@@ -1,0 +1,151 @@
+.header-search-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    z-index: 50;
+    /* Đảm bảo dropdown đè lên nội dung khác */
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    background-color: var(--color-bg-main);
+    border: 1px solid #cbd5e1;
+    border-radius: var(--radius-pill);
+    padding: 0 16px;
+    height: 44px;
+    transition: all 0.2s ease;
+}
+
+.search-form.focused {
+    background-color: white;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px var(--color-primary-light);
+}
+
+.search-icon-wrapper {
+    color: var(--color-text-hint);
+    margin-right: 12px;
+    display: flex;
+}
+
+.search-input {
+    flex-grow: 1;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-primary);
+}
+
+.btn-clear-search {
+    background: none;
+    border: none;
+    color: var(--color-text-hint);
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+
+.btn-clear-search:hover {
+    background-color: #e2e8f0;
+    color: var(--color-text-primary);
+}
+
+/* HIỆU ỨNG SPINNER QUAY */
+.spinner {
+    animation: spin 1s linear infinite;
+    color: var(--color-primary);
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* =========================================
+   GIAO DIỆN DROPDOWN GỢI Ý (YOUTUBE STYLE)
+   ========================================= */
+.search-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 100%;
+    background-color: var(--color-bg-card);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+}
+
+.dropdown-message {
+    padding: 16px;
+    text-align: center;
+    color: var(--color-text-hint);
+    font-size: var(--font-size-sm);
+}
+
+.suggestion-list {
+    list-style: none;
+    margin: 0;
+    padding: 8px 0;
+}
+
+.suggestion-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.suggestion-item:hover {
+    background-color: #f1f5f9;
+}
+
+.suggestion-icon {
+    margin-right: 16px;
+    display: flex;
+    background-color: var(--color-bg-main);
+    padding: 8px;
+    border-radius: 50%;
+}
+
+.suggestion-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.suggestion-title {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+}
+
+.suggestion-type {
+    font-size: 11px;
+    color: var(--color-text-hint);
+    margin-top: 2px;
+}
+
+/* Animation mượt mà cho dropdown */
+.animation-slide-down {
+    animation: slideDown 0.2s ease-out;
+    transform-origin: top;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px) scaleY(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scaleY(1);
+    }
+}

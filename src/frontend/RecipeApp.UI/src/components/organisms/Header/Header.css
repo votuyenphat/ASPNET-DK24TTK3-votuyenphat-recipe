@@ -36,16 +36,11 @@
     max-width: 500px;
     display: flex;
     align-items: center;
-    background-color: #f5f5f5;
     /* Dùng màu xám nhạt để ô tìm kiếm nổi bật hơn trên nền trắng */
 
     /* SỬ DỤNG RADIUS PILL ĐỂ BO TRÒN 2 ĐẦU */
     border-radius: var(--radius-pill);
 
-    padding: 4px 16px;
-    /* Tăng padding 2 bên để chữ không sát viền cong */
-    border: 1px solid transparent;
-    transition: border-color 0.2s, background-color 0.2s;
 }
 
 .header-search:focus-within {
