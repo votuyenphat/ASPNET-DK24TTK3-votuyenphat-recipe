@@ -60,5 +60,17 @@ namespace RecipeApp.API.Features.Users
                 }
             });
         }
+
+        [HttpGet("profile/{userId}")]
+        public async Task<IActionResult> GetPublicProfile(string userId)
+        {
+            // Lấy ID người đang xem (có thể rỗng nếu khách vãng lai)
+            var currentViewerId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            var profile = await _userService.GetPublicProfileAsync(userId, currentViewerId);
+            if (profile == null) return NotFound(new { Message = "Không tìm thấy đầu bếp này." });
+
+            return Ok(profile);
+        }
     }
 }

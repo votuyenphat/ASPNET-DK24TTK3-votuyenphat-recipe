@@ -475,7 +475,10 @@ export const RecipeDetailPage = () => {
                 alt="author"
                 className="chef-avatar-large"
               />
-              <div className="chef-meta">
+              <div
+                className="chef-meta"
+                onClick={() => navigate(`/chef/${recipe.authorId}`)}
+              >
                 <span className="widget-label">Người chia sẻ</span>
                 <h4 className="chef-title-name">{recipe.authorName}</h4>
                 <span
