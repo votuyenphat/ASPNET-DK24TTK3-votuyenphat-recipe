@@ -15,9 +15,12 @@ import {
   Utensils,
   Star,
   MessageCircle,
+  Tag,
 } from "lucide-react";
 import apiClient from "../../services/apiClient";
 import "./RecipeDetailPage.css";
+import toast from "react-hot-toast";
+import { CommentSection } from "../../components/organisms/CommentSection/CommentSection";
 
 export const RecipeDetailPage = () => {
   const { slug } = useParams();
@@ -29,11 +32,27 @@ export const RecipeDetailPage = () => {
   // State bật/tắt chế độ đứng bếp (Kitchen Mode)
   const [isKitchenMode, setIsKitchenMode] = useState(false);
 
+  // Bổ sung state quản lý tương tác
+  const [interactionStats, setInteractionStats] = useState({
+    favoriteCount: 0,
+    followerCount: 0,
+    isFavorited: false, // Để đổi màu trái tim
+    isFollowing: false, // Để đổi màu nút Theo dõi
+  });
+
   useEffect(() => {
     const fetchRecipeDetail = async () => {
       try {
         const response = await apiClient.get(`/api/features/recipes/${slug}`);
         setRecipe(response.data);
+
+        // SỬA TẠI ĐÂY: Dùng dữ liệu thật từ Backend thay vì hardcode "false"
+        setInteractionStats({
+          favoriteCount: response.data.favoriteCount || 0,
+          followerCount: response.data.authorFollowers || 0,
+          isFavorited: response.data.isFavorited || false, // Đọc cờ từ Backend
+          isFollowing: response.data.isFollowing || false, // Đọc cờ từ Backend
+        });
       } catch (error) {
         console.error("Lỗi khi tải chi tiết công thức:", error);
       } finally {
@@ -65,6 +84,43 @@ export const RecipeDetailPage = () => {
       ...prev,
       [id]: !prev[id],
     }));
+  };
+
+  const handleToggleFavorite = async () => {
+    try {
+      await apiClient.post(
+        `/api/features/interactions/recipes/${recipe.id}/favorite`,
+      );
+
+      // Cập nhật giao diện ngay lập tức (Optimistic UI)
+      setInteractionStats((prev) => ({
+        ...prev,
+        isFavorited: !prev.isFavorited,
+        favoriteCount: prev.isFavorited
+          ? prev.favoriteCount - 1
+          : prev.favoriteCount + 1,
+      }));
+    } catch (error) {
+      toast.error("Vui lòng đăng nhập để thả tim công thức!");
+    }
+  };
+
+  const handleToggleFollow = async () => {
+    try {
+      await apiClient.post(
+        `/api/features/interactions/users/${recipe.authorId}/follow`,
+      );
+
+      setInteractionStats((prev) => ({
+        ...prev,
+        isFollowing: !prev.isFollowing,
+        followerCount: prev.isFollowing
+          ? prev.followerCount - 1
+          : prev.followerCount + 1,
+      }));
+    } catch (error) {
+      toast.error("Vui lòng đăng nhập để theo dõi tác giả!");
+    }
   };
 
   if (isLoading)
@@ -208,6 +264,51 @@ export const RecipeDetailPage = () => {
               ))}
             </div>
           </div>
+
+          {recipe.tags && recipe.tags.length > 0 && (
+            <div className="related-tags-section" style={{ marginTop: "40px" }}>
+              <h3
+                style={{
+                  fontSize: "16px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  marginBottom: "16px",
+                }}
+              >
+                <Tag size={18} color="var(--color-primary)" /> Khám phá thêm
+              </h3>
+              <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+                {recipe.tags.map((tag, index) => (
+                  <span
+                    key={index}
+                    onClick={() => navigate(`/search?tag=${tag}`)} // Click để chuyển hướng sang trang tìm kiếm
+                    style={{
+                      backgroundColor: "var(--color-bg-main)",
+                      color: "var(--color-text-primary)",
+                      padding: "8px 16px",
+                      borderRadius: "8px",
+                      fontSize: "13px",
+                      fontWeight: "bold",
+                      cursor: "pointer",
+                      transition: "all 0.2s",
+                      border: "1px solid #e2e8f0",
+                    }}
+                    onMouseEnter={(e) =>
+                      (e.target.style.borderColor = "var(--color-primary)")
+                    }
+                    onMouseLeave={(e) =>
+                      (e.target.style.borderColor = "#e2e8f0")
+                    }
+                  >
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <CommentSection recipeId={recipe.id} />
         </div>
 
         {/* ==========================================
@@ -266,22 +367,54 @@ export const RecipeDetailPage = () => {
               <div className="chef-meta">
                 <span className="widget-label">Người chia sẻ</span>
                 <h4 className="chef-title-name">{recipe.authorName}</h4>
-                {/* HIỂN THỊ SỐ FOLLOWER Ở ĐÂY */}
                 <span
                   style={{ fontSize: "12px", color: "var(--color-text-hint)" }}
                 >
-                  {recipe.authorFollowers} người theo dõi
+                  {interactionStats.followerCount} người theo dõi
                 </span>
               </div>
-              <button className="btn-follow-chef">Theo dõi</button>
+
+              <button
+                className={`btn-follow-chef ${interactionStats.isFollowing ? "following" : ""}`}
+                onClick={handleToggleFollow}
+                style={
+                  interactionStats.isFollowing
+                    ? {
+                        backgroundColor: "var(--color-text-primary)",
+                        color: "white",
+                      }
+                    : {}
+                }
+              >
+                {interactionStats.isFollowing ? "Đang theo dõi" : "Theo dõi"}
+              </button>
             </div>
 
             {/* Các nút tương tác nhanh */}
             <div className="sidebar-actions-grid">
-              <button className="btn-action-side save">
-                <Heart size={18} /> Thả tim ({recipe.favoriteCount})
+              <button
+                className="btn-action-side save"
+                onClick={handleToggleFavorite}
+                style={
+                  interactionStats.isFavorited
+                    ? { backgroundColor: "var(--color-error)", color: "white" }
+                    : {}
+                }
+              >
+                <Heart
+                  size={18}
+                  fill={interactionStats.isFavorited ? "currentColor" : "none"}
+                />
+                Thả tim ({interactionStats.favoriteCount})
               </button>
-              <button className="btn-action-side share">
+
+              <button
+                className="btn-action-side share"
+                onClick={() => {
+                  navigator.clipboard.writeText(window.location.href);
+                  toast.success("Đã copy đường dẫn bài viết!");
+                }}
+              >
                 <Share2 size={18} /> Chia sẻ
               </button>
             </div>

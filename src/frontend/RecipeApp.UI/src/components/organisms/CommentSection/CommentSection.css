@@ -1,0 +1,215 @@
+.comment-section-wrapper {
+    margin-top: var(--space-xl);
+    padding-top: var(--space-xl);
+    border-top: 2px dashed #e2e8f0;
+}
+
+.comment-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: var(--space-lg);
+}
+
+.comment-header h3 {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    margin: 0;
+}
+
+/* Form Nhập */
+.comment-input-box {
+    display: flex;
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+}
+
+.comment-form {
+    flex-grow: 1;
+    position: relative;
+}
+
+.comment-form textarea {
+    width: 100%;
+    padding: 16px;
+    padding-right: 60px;
+    /* Nhường chỗ cho nút Gửi */
+    border: 1px solid #cbd5e1;
+    border-radius: var(--radius-lg);
+    resize: none;
+    font-family: inherit;
+    font-size: var(--font-size-base);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background-color: var(--color-bg-card);
+}
+
+.comment-form textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.comment-form textarea:disabled {
+    background-color: #f8fafc;
+    cursor: not-allowed;
+}
+
+.btn-send-comment {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-send-comment:hover:not(:disabled) {
+    background-color: var(--color-primary-hover);
+    transform: scale(1.05);
+}
+
+.btn-send-comment:disabled {
+    background-color: #cbd5e1;
+    cursor: not-allowed;
+}
+
+/* Danh sách Bình luận */
+.comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.comment-item {
+    display: flex;
+    gap: var(--space-md);
+}
+
+.comment-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-full);
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.comment-content {
+    background-color: #f8fafc;
+    padding: 12px 16px;
+    border-radius: 0 var(--radius-lg) var(--radius-lg) var(--radius-lg);
+    flex-grow: 1;
+}
+
+.comment-meta {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+.comment-author {
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+}
+
+.comment-date {
+    font-size: 11px;
+    color: var(--color-text-hint);
+}
+
+.comment-text {
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+    white-space: pre-wrap;
+    /* Giữ nguyên xuống dòng của textarea */
+}
+
+.comments-loading,
+.comments-empty {
+    text-align: center;
+    color: var(--color-text-hint);
+    padding: var(--space-xl) 0;
+}
+
+
+/* Nút Trả lời nhỏ */
+.comment-actions {
+    margin-top: 6px;
+}
+
+.btn-action-reply {
+    background: none;
+    border: none;
+    color: var(--color-text-secondary);
+    font-size: 12px;
+    font-weight: var(--font-weight-bold);
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.2s;
+}
+
+.btn-action-reply:hover {
+    color: var(--color-primary);
+    text-decoration: underline;
+}
+
+/* Thụt dòng cho Bình luận con (Replies) */
+.replies-container {
+    margin-left: 36px;
+    /* Đẩy lùi sang phải */
+    border-left: 2px solid #f1f5f9;
+    /* Đường chỉ dọc mờ kết nối các câu trả lời */
+    padding-left: var(--space-md);
+    margin-top: var(--space-md);
+}
+
+.reply-node {
+    margin-top: var(--space-md);
+}
+
+/* Khung nhập Reply nhỏ xuất hiện động */
+.reply-input-box {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-left: 44px;
+    margin-top: var(--space-sm);
+    background-color: var(--color-bg-main);
+    padding: var(--space-sm);
+    border-radius: var(--radius-md);
+}
+
+.reply-arrow {
+    flex-shrink: 0;
+}
+
+.btn-send-comment-large {
+    margin-top: 8px;
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: var(--radius-pill);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    float: right;
+    /* Đẩy nút gửi chính xuống góc phải dưới */
+}
+
+.btn-send-comment-large:disabled {
+    background-color: #cbd5e1;
+    cursor: not-allowed;
+}

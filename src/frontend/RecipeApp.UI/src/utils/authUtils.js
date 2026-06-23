@@ -29,4 +29,21 @@ export const authUtils = {
   isAuthenticated: () => {
     return !!localStorage.getItem(TOKEN_KEY);
   },
+
+  isLoggedIn: () => {
+    const token = localStorage.getItem("token");
+    return !!token; // Ép kiểu về boolean (true nếu có token, false nếu null)
+  },
+
+  getUserInfo: () => {
+    const userStr = localStorage.getItem("recipe_app_user");
+    if (!userStr) return null;
+
+    try {
+      return JSON.parse(userStr); // Parse chuỗi JSON thành Object
+    } catch (error) {
+      console.error("Lỗi parse thông tin user:", error);
+      return null;
+    }
+  },
 };
