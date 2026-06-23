@@ -19,8 +19,10 @@ import {
 } from "lucide-react";
 import apiClient from "../../services/apiClient";
 import "./RecipeDetailPage.css";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { CommentSection } from "../../components/organisms/CommentSection/CommentSection";
+import { authUtils } from "../../utils/authUtils";
+import { ConfirmModal } from "../../components/molecules/ConfirmModal/ConfirmModal";
 
 export const RecipeDetailPage = () => {
   const { slug } = useParams();
@@ -40,12 +42,17 @@ export const RecipeDetailPage = () => {
     isFollowing: false, // Để đổi màu nút Theo dõi
   });
 
+  const [userRating, setUserRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
+  const [isRateModalOpen, setIsRateModalOpen] = useState(false); // Trạng thái mở modal confirm vote
+  const [pendingRating, setPendingRating] = useState(0);
+
   useEffect(() => {
     const fetchRecipeDetail = async () => {
       try {
         const response = await apiClient.get(`/api/features/recipes/${slug}`);
         setRecipe(response.data);
-
+        setUserRating(response.data.currentUserRating || 0);
         // SỬA TẠI ĐÂY: Dùng dữ liệu thật từ Backend thay vì hardcode "false"
         setInteractionStats({
           favoriteCount: response.data.favoriteCount || 0,
@@ -123,6 +130,50 @@ export const RecipeDetailPage = () => {
     }
   };
 
+  const handleRateRecipe = async (starCount) => {
+    if (!authUtils.isLoggedIn()) {
+      toast.error("Vui lòng đăng nhập để đánh giá món ăn!");
+      return;
+    }
+
+    try {
+      await apiClient.post(
+        `/api/features/interactions/recipes/${recipe.id}/rate`,
+        { starCount },
+      );
+      setUserRating(starCount);
+
+      // Tùy chọn: Có thể fetch lại API lấy chi tiết để cập nhật số điểm trung bình mới ngay lập tức
+    } catch (error) {
+      toast.error("Không thể gửi đánh giá.");
+    }
+  };
+
+  const handleStarClick = (starCount) => {
+    setPendingRating(starCount); // Tạm lưu số sao định vote
+    setIsRateModalOpen(true); // Mở modal hỏi lại cho chắc
+  };
+
+  const handleConfirmRate = async () => {
+    setIsRateModalOpen(false); // Đóng modal
+    const loadingToast = toast.loading("Đang gửi đánh giá của bạn...");
+
+    try {
+      // Gọi API POST gửi số sao lên
+      handleRateRecipe(pendingRating);
+      setUserRating(pendingRating); // Cập nhật số sao chính thức lên giao diện
+      toast.success(`Cảm ơn bạn đã đánh giá ${pendingRating} sao!`, {
+        id: loadingToast,
+      });
+
+      // Tùy chọn: Bạn có thể fetch lại chi tiết recipe tại đây để cập nhật trường "recipe.averageRating" (Điểm trung bình tổng)
+    } catch (error) {
+      toast.error("Vui lòng đăng nhập để đánh giá món ăn này.", {
+        id: loadingToast,
+      });
+    }
+  };
+
   if (isLoading)
     return (
       <div className="detail-loading">
@@ -138,6 +189,7 @@ export const RecipeDetailPage = () => {
     <div
       className={`recipe-detail-wrapper ${isKitchenMode ? "kitchen-active" : ""}`}
     >
+      <Toaster position="top-center" />
       {/* Thanh điều khiển nổi: Bật tắt chế độ nấu ăn nhanh */}
       <div className="kitchen-mode-bar">
         <div className="mode-bar-container">
@@ -307,6 +359,64 @@ export const RecipeDetailPage = () => {
               </div>
             </div>
           )}
+
+          <ConfirmModal
+            isOpen={isRateModalOpen}
+            title="Xác nhận đánh giá?"
+            message={`Bạn có chắc chắn muốn đánh giá món ăn này ${pendingRating} sao không?`}
+            confirmText="Đồng ý"
+            cancelText="Hủy bỏ"
+            isDestructive={false} // Hiện nút màu xanh (Primary) thay vì màu đỏ nguy hiểm
+            onConfirm={handleConfirmRate}
+            onCancel={() => setIsRateModalOpen(false)}
+          />
+
+          <div
+            className="user-rating-section"
+            style={{
+              marginTop: "32px",
+              padding: "24px",
+              backgroundColor: "#f8fafc",
+              borderRadius: "12px",
+              textAlign: "center",
+            }}
+          >
+            <h3 style={{ fontSize: "16px", marginBottom: "12px" }}>
+              Bạn đánh giá món ăn này thế nào?
+            </h3>
+            <div
+              style={{ display: "flex", justifyContent: "center", gap: "8px" }}
+            >
+              {[1, 2, 3, 4, 5].map((star) => (
+                <Star
+                  key={star}
+                  size={32}
+                  fill={
+                    star <= (hoverRating || userRating) ? "#f59e0b" : "white"
+                  }
+                  color={
+                    star <= (hoverRating || userRating) ? "#f59e0b" : "#cbd5e1"
+                  }
+                  style={{ cursor: "pointer", transition: "all 0.2s" }}
+                  onMouseEnter={() => setHoverRating(star)}
+                  onMouseLeave={() => setHoverRating(0)}
+                  onClick={() => handleStarClick(star)}
+                />
+              ))}
+            </div>
+            {userRating > 0 && (
+              <p
+                style={{
+                  fontSize: "13px",
+                  color: "var(--color-primary)",
+                  marginTop: "8px",
+                  fontWeight: "bold",
+                }}
+              >
+                Bạn đã đánh giá {userRating} sao
+              </p>
+            )}
+          </div>
 
           <CommentSection recipeId={recipe.id} />
         </div>

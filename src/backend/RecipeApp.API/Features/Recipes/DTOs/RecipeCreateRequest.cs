@@ -12,8 +12,10 @@ namespace RecipeApp.API.Features.Recipes.DTOs
         public int Servings { get; set; }
         public byte Difficulty { get; set; }
 
+
         public List<IngredientDto> Ingredients { get; set; } = new();
         public List<StepDto> Steps { get; set; } = new();
+        public List<string> Tags { get; set; } = new List<string>();
     }
 
     public class IngredientDto
@@ -28,5 +30,6 @@ namespace RecipeApp.API.Features.Recipes.DTOs
     {
         public string Content { get; set; } = string.Empty;
         public string? ImageUrl { get; set; }
+
     }
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Edit, Trash2, Heart, Eye, TrendingUp } from "lucide-react";
 import { authUtils } from "../../utils/authUtils";
 import apiClient from "../../services/apiClient";
@@ -8,6 +8,7 @@ import "./ProfilePage.css";
 import { ConfirmModal } from "../../components/molecules/ConfirmModal/ConfirmModal";
 
 export const ProfilePage = () => {
+  const navigate = useNavigate();
   const userInfo = authUtils.getUserInfo();
   const [myRecipes, setMyRecipes] = useState([]);
   const [profileStats, setProfileStats] = useState(null);
@@ -143,7 +144,14 @@ export const ProfilePage = () => {
               </div>
             </div>
 
-            <button className="btn-edit-profile">Chỉnh sửa hồ sơ</button>
+            <button
+              className="btn-edit-profile"
+              onClick={() => {
+                navigate("/edit-profile");
+              }}
+            >
+              Chỉnh sửa hồ sơ
+            </button>
           </div>
         </div>
       </div>

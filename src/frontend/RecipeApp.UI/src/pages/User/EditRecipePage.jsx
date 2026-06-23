@@ -81,6 +81,7 @@ export const EditRecipePage = () => {
           steps: data.steps.map((step) => ({
             content: step.content,
             imageUrl: step.imageUrl || "",
+            tags: data.tags || [],
           })),
         });
       } catch (error) {
@@ -140,6 +141,30 @@ export const EditRecipePage = () => {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const [tagInput, setTagInput] = useState("");
+  const watchTags = watch("tags") || []; // Theo dõi mảng tags trong form real-time
+
+  const handleAddTag = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // Chặn không cho Enter gây lỗi submit form bậy
+      const newTag = tagInput.trim().toLowerCase();
+
+      // Nếu tag hợp lệ và chưa có trong danh sách thì add vào mảng
+      if (newTag && !watchTags.includes(newTag)) {
+        setValue("tags", [...watchTags, newTag]);
+        setTagInput(""); // Reset ô nhập
+      }
+    }
+  };
+
+  const handleRemoveTag = (tagToRemove) => {
+    // Lọc bỏ tag bị xóa và cập nhật lại form state
+    setValue(
+      "tags",
+      watchTags.filter((t) => t !== tagToRemove),
+    );
   };
 
   const coverImageUrl = watch("coverImageUrl");
@@ -337,6 +362,81 @@ export const EditRecipePage = () => {
             <Plus size={16} /> Thêm bước mới
           </button>
         </section>
+
+        <div className="form-group full-width" style={{ marginTop: "16px" }}>
+          <label>Thẻ gắn liền (Tags)</label>
+          <div
+            className="tags-input-container"
+            style={{
+              border: "1px solid #cbd5e1",
+              borderRadius: "8px",
+              padding: "10px",
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "8px",
+              backgroundColor: "white",
+            }}
+          >
+            {/* Vòng lặp hiển thị các tag hiện tại */}
+            {watchTags.map((tag, idx) => (
+              <span
+                key={idx}
+                style={{
+                  backgroundColor: "var(--color-bg-main)",
+                  color: "var(--color-primary)",
+                  padding: "6px 12px",
+                  borderRadius: "99px",
+                  fontSize: "13px",
+                  display: "flex",
+                  alignInsert: "center",
+                  alignItems: "center",
+                  gap: "6px",
+                  fontWeight: "bold",
+                }}
+              >
+                #{tag}
+                {/* Nút bấm X để xóa tag khỏi danh sách */}
+                <X
+                  size={14}
+                  style={{ cursor: "pointer", color: "var(--color-text-hint)" }}
+                  onClick={() => handleRemoveTag(tag)}
+                />
+              </span>
+            ))}
+
+            {/* Ô nhập để gõ thêm tag mới */}
+            <input
+              type="text"
+              value={tagInput}
+              onChange={(e) => setTagInput(e.target.value)}
+              onKeyDown={handleAddTag}
+              placeholder={
+                watchTags.length === 0
+                  ? "Gõ tag rồi ấn Enter (VD: mon-kho, an-sang...)"
+                  : "Thêm tag khác..."
+              }
+              style={{
+                border: "none",
+                outline: "none",
+                flexGrow: 1,
+                minWidth: "150px",
+                fontSize: "14px",
+                backgroundColor: "transparent",
+              }}
+            />
+          </div>
+          <span
+            style={{
+              fontSize: "12px",
+              color: "var(--color-text-hint)",
+              marginTop: "6px",
+              display: "block",
+            }}
+          >
+            Nhấn phím <strong>Enter</strong> để xác nhận thêm thẻ mới. Bạn có
+            thể tự do nhấn nút X để xóa bớt thẻ cũ.
+          </span>
+        </div>
 
         {/* STICKY FOOTER ACTION BAR */}
         <div className="edit-sticky-footer">

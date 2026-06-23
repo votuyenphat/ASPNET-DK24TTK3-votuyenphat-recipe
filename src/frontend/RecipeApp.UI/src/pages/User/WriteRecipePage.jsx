@@ -10,6 +10,7 @@ import {
   ArrowLeft,
   Check,
   ChefHat,
+  X,
 } from "lucide-react";
 import apiClient from "../../services/apiClient";
 import "./WriteRecipePage.css";
@@ -169,6 +170,28 @@ export const WriteRecipePage = () => {
   };
 
   const coverImageUrl = watch("coverImageUrl");
+  const [tagInput, setTagInput] = useState("");
+  const watchTags = watch("tags") || [];
+
+  const handleAddTag = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // Chặn gửi form
+      const newTag = tagInput.trim().toLowerCase();
+
+      // Nếu tag không rỗng và chưa tồn tại trong mảng thì mới thêm
+      if (newTag && !watchTags.includes(newTag)) {
+        setValue("tags", [...watchTags, newTag]);
+        setTagInput(""); // Xóa rỗng ô nhập
+      }
+    }
+  };
+
+  const handleRemoveTag = (tagToRemove) => {
+    setValue(
+      "tags",
+      watchTags.filter((t) => t !== tagToRemove),
+    );
+  };
 
   return (
     <div className="write-recipe-container">
@@ -292,6 +315,79 @@ export const WriteRecipePage = () => {
                   <option value="2">Trung bình</option>
                   <option value="3">Khó</option>
                 </select>
+              </div>
+            </div>
+            <div className="form-row">
+              <div className="form-group full-width">
+                <label>Thẻ (Tags)</label>
+                <div
+                  className="tags-input-container"
+                  style={{
+                    border: "1px solid #cbd5e1",
+                    borderRadius: "8px",
+                    padding: "8px",
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "8px",
+                    backgroundColor: "white",
+                  }}
+                >
+                  {/* Hiển thị các tag đã nhập */}
+                  {watchTags.map((tag, idx) => (
+                    <span
+                      key={idx}
+                      style={{
+                        backgroundColor: "var(--color-bg-main)",
+                        color: "var(--color-primary)",
+                        padding: "4px 10px",
+                        borderRadius: "99px",
+                        fontSize: "13px",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "6px",
+                      }}
+                    >
+                      #{tag}
+                      <X
+                        size={14}
+                        style={{ cursor: "pointer" }}
+                        onClick={() => handleRemoveTag(tag)}
+                      />
+                    </span>
+                  ))}
+
+                  {/* Ô gõ Tag */}
+                  <input
+                    type="text"
+                    value={tagInput}
+                    onChange={(e) => setTagInput(e.target.value)}
+                    onKeyDown={handleAddTag}
+                    placeholder={
+                      watchTags.length === 0
+                        ? "Nhập tag và ấn Enter (VD: mon-chay, an-kieng...)"
+                        : ""
+                    }
+                    style={{
+                      border: "none",
+                      outline: "none",
+                      flexGrow: 1,
+                      minWidth: "150px",
+                      fontSize: "14px",
+                      backgroundColor: "transparent",
+                    }}
+                  />
+                </div>
+                <span
+                  style={{
+                    fontSize: "12px",
+                    color: "var(--color-text-hint)",
+                    marginTop: "4px",
+                    display: "block",
+                  }}
+                >
+                  Ấn Enter để thêm thẻ. Việc này giúp mọi người dễ dàng tìm thấy
+                  công thức của bạn.
+                </span>
               </div>
             </div>
           </div>

@@ -94,6 +94,31 @@ namespace RecipeApp.API.Features.Recipes
                 });
             }
 
+             if (request.Tags != null && request.Tags.Any())
+            {
+                var distinctTags = request.Tags.Select(t => t.Trim().ToLower()).Distinct().ToList();
+                foreach (var tagName in distinctTags)
+                {
+                    // Kiểm tra xem tag này đã có trong DB chưa
+                    var existingTag = await _context.Tags.FirstOrDefaultAsync(t => t.Name.ToLower() == tagName);
+                    if (existingTag == null)
+                    {
+                        // Nếu chưa có, tạo Tag mới
+                        existingTag = new TagEntity 
+                        { 
+                            Name = tagName, 
+                            // Có thể dùng một hàm viết sẵn hoặc thư viện để tạo Slug, VD: slugify
+                            Slug = tagName.Replace(" ", "-") + "-" + Guid.NewGuid().ToString()[..4] 
+                        };
+                        _context.Tags.Add(existingTag);
+                        await _context.SaveChangesAsync(); // Lưu để sinh Id
+                    }
+
+                    // Nối Tag với Recipe
+                    recipe.RecipeTags.Add(new RecipeTagEntity { TagId = existingTag.Id });
+                }
+            }
+
             // 4. Lưu tất cả vào Database
             _context.Recipes.Add(recipe);
             await _context.SaveChangesAsync();
@@ -174,6 +199,7 @@ namespace RecipeApp.API.Features.Recipes
             // 2. Xóa các liên kết Nguyên liệu & Bước làm cũ
             _context.RecipeIngredients.RemoveRange(recipe.Ingredients);
             _context.InstructionSteps.RemoveRange(recipe.InstructionSteps);
+             _context.RecipeTags.RemoveRange(_context.RecipeTags.Where(rt => rt.RecipeId == recipeId));
 
             // 3. Thêm lại Nguyên liệu mới (y hệt luồng Create)
             var distinctIngredients = request.Ingredients
@@ -216,6 +242,31 @@ namespace RecipeApp.API.Features.Recipes
                 });
             }
 
+             if (request.Tags != null && request.Tags.Any())
+            {
+                var distinctTags = request.Tags.Select(t => t.Trim().ToLower()).Distinct().ToList();
+                foreach (var tagName in distinctTags)
+                {
+                    // Kiểm tra xem tag này đã có trong DB chưa
+                    var existingTag = await _context.Tags.FirstOrDefaultAsync(t => t.Name.ToLower() == tagName);
+                    if (existingTag == null)
+                    {
+                        // Nếu chưa có, tạo Tag mới
+                        existingTag = new TagEntity 
+                        { 
+                            Name = tagName, 
+                            // Có thể dùng một hàm viết sẵn hoặc thư viện để tạo Slug, VD: slugify
+                            Slug = tagName.Replace(" ", "-") + "-" + Guid.NewGuid().ToString()[..4] 
+                        };
+                        _context.Tags.Add(existingTag);
+                        await _context.SaveChangesAsync(); // Lưu để sinh Id
+                    }
+
+                    // Nối Tag với Recipe
+                    recipe.RecipeTags.Add(new RecipeTagEntity { TagId = existingTag.Id });
+                }
+            }
+
             await _context.SaveChangesAsync();
             return true;
         }
@@ -246,6 +297,7 @@ namespace RecipeApp.API.Features.Recipes
 
             bool isFavorited = false;
             bool isFollowing = false;
+            int? currentUserRating = null;
 
             if (!string.IsNullOrEmpty(currentUserId))
             {
@@ -259,6 +311,9 @@ namespace RecipeApp.API.Features.Recipes
                     isFollowing = await _context.UserFollows
                         .AnyAsync(uf => uf.FollowerId == currentUserId && uf.FollowedId == recipe.AuthorId);
                 }
+
+                var rating = await _context.Ratings.FirstOrDefaultAsync(r => r.UserId == currentUserId && r.RecipeId == recipe.Id);
+                if (rating != null) currentUserRating = rating.StarCount;
             }
 
             // Ánh xạ dữ liệu sang DTO trả về
@@ -287,6 +342,7 @@ namespace RecipeApp.API.Features.Recipes
                 IsFavorited = isFavorited,
                 IsFollowing = isFollowing,
                 FavoriteCount = recipe.FavoriteCount,
+                CurrentUserRating = currentUserRating,
         
                 // Map mảng Tag
                 Tags = recipe.RecipeTags.Select(rt => rt.Tag!.Name).ToList(),

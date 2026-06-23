@@ -33,6 +33,8 @@ namespace RecipeApp.API.Features.Recipes.DTOs
         public bool IsFavorited { get; set; } // Current user đã tim chưa?
         public bool IsFollowing { get; set; } // Current user đã theo dõi tác giả chưa?
 
+        public int? CurrentUserRating { get; set; } // Đánh giá của current user (1-5), null nếu chưa đánh giá
+
         // Danh sách dữ liệu lồng ghép
         public List<RecipeIngredientDetailDto> Ingredients { get; set; } = new();
         public List<InstructionStepDetailDto> Steps { get; set; } = new();

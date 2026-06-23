@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RecipeApp.API.Features.Users.DTOs;
 using System.Security.Claims;
 
 namespace RecipeApp.API.Features.Users
@@ -33,6 +34,31 @@ namespace RecipeApp.API.Features.Users
             }
 
             return Ok(profile);
+        }
+
+        [Authorize]
+        [HttpPut("me")]
+        public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileRequest request)
+        {
+            if (string.IsNullOrWhiteSpace(request.DisplayName))
+            {
+                return BadRequest(new { Message = "Tên hiển thị không được để trống." });
+            }
+
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null) return Unauthorized();
+
+            var success = await _userService.UpdateProfileAsync(userId, request);
+            if (!success) return BadRequest(new { Message = "Không tìm thấy người dùng." });
+
+            return Ok(new { 
+                Message = "Cập nhật hồ sơ thành công!",
+                // Trả về thông tin mới để Frontend cập nhật localStorage
+                User = new {
+                    DisplayName = request.DisplayName,
+                    AvatarUrl = request.AvatarUrl
+                }
+            });
         }
     }
 }
