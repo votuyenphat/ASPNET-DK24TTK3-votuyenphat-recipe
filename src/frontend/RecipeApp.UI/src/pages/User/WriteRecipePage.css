@@ -1,0 +1,376 @@
+.write-recipe-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--space-xl) 0;
+}
+
+/* ============================
+   STEPPER (THANH TIẾN TRÌNH)
+   ============================ */
+.stepper-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-xl);
+    padding: 0 var(--space-xl);
+}
+
+.step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-text-hint);
+    transition: all 0.3s;
+}
+
+.step-item.active {
+    color: var(--color-primary);
+    font-weight: var(--font-weight-bold);
+}
+
+.step-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-bg-card);
+    border: 2px solid var(--color-text-hint);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.step-item.active .step-circle {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: white;
+    box-shadow: 0 4px 10px rgba(203, 109, 35, 0.3);
+}
+
+.step-line {
+    flex-grow: 1;
+    height: 2px;
+    background-color: var(--color-text-hint);
+    margin: 0 16px;
+    margin-bottom: 24px;
+    transition: background-color 0.3s;
+}
+
+.step-line.active {
+    background-color: var(--color-primary);
+}
+
+/* ============================
+   FORM BODY & INPUTS
+   ============================ */
+.wizard-form-body {
+    background-color: var(--color-bg-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: var(--space-xl);
+    min-height: 500px;
+    /* Chống giật form khi đổi bước */
+    display: flex;
+    flex-direction: column;
+}
+
+.step-content {
+    flex-grow: 1;
+}
+
+.animation-slide-up {
+    animation: slideUpFade 0.4s ease-out forwards;
+}
+
+@keyframes slideUpFade {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.step-title {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--space-sm);
+}
+
+.step-desc {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-lg);
+}
+
+/* Base Inputs */
+.form-row {
+    display: flex;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.three-cols {
+    grid-template-columns: 1fr 1fr 1fr;
+    display: grid;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+
+.form-group label {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+}
+
+.required {
+    color: var(--color-error);
+}
+
+.base-input,
+.base-textarea {
+    padding: 12px 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: var(--radius-md);
+    font-family: inherit;
+    font-size: var(--font-size-base);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+}
+
+.base-input:focus,
+.base-textarea:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+/* ============================
+   UPLOAD ZONE
+   ============================ */
+.cover-upload-zone {
+    width: 100%;
+    height: 250px;
+    border: 2px dashed #cbd5e1;
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-lg);
+    position: relative;
+    background-color: var(--color-bg-main);
+    overflow: hidden;
+    transition: border-color 0.2s;
+}
+
+.cover-upload-zone:hover {
+    border-color: var(--color-primary);
+}
+
+.upload-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--color-text-secondary);
+    gap: 8px;
+}
+
+.cover-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.file-input-hidden {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* ============================
+   DYNAMIC FIELDS (MẢNG ĐỘNG)
+   ============================ */
+.dynamic-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: var(--space-sm);
+}
+
+.drag-handle {
+    color: var(--color-text-hint);
+    cursor: grab;
+}
+
+.flex-2 {
+    flex: 2;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+.btn-icon-danger {
+    background: none;
+    border: none;
+    color: var(--color-text-hint);
+    cursor: pointer;
+    padding: 8px;
+    transition: color 0.2s;
+}
+
+.btn-icon-danger:hover {
+    color: var(--color-error);
+}
+
+.btn-add-dashed {
+    width: 100%;
+    padding: 12px;
+    border: 2px dashed var(--color-primary-light);
+    background-color: transparent;
+    color: var(--color-primary);
+    font-weight: var(--font-weight-bold);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    margin-top: var(--space-md);
+    transition: background-color 0.2s;
+}
+
+.btn-add-dashed:hover {
+    background-color: var(--color-primary-light);
+}
+
+/* Card cho từng bước nấu */
+.step-dynamic-card {
+    background-color: var(--color-bg-main);
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-md);
+    border: 1px solid #f1f5f9;
+}
+
+.step-card-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--space-sm);
+}
+
+.btn-icon-danger-text {
+    color: var(--color-error);
+    font-size: var(--font-size-xs);
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.step-upload-placeholder {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background-color: #f1f5f9;
+    border-radius: var(--radius-pill);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    position: relative;
+    overflow: hidden;
+    margin-top: var(--space-sm);
+}
+
+.step-img-preview-box {
+    position: relative;
+    width: 200px;
+    height: 120px;
+    margin-top: var(--space-sm);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.step-img-preview-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.btn-change-img {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    font-size: 10px;
+    padding: 4px 8px;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+}
+
+/* ============================
+   FOOTER (NÚT NEXT/PREV)
+   ============================ */
+.wizard-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: var(--space-xl);
+    padding-top: var(--space-lg);
+    border-top: 1px solid #e2e8f0;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.btn-prev {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    color: var(--color-text-secondary);
+    font-weight: var(--font-weight-bold);
+    cursor: pointer;
+    padding: 8px 16px;
+}
+
+.btn-next {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #333333;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: var(--radius-pill);
+    font-weight: var(--font-weight-bold);
+    cursor: pointer;
+}
+
+.btn-submit-recipe {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: var(--radius-pill);
+    font-weight: var(--font-weight-bold);
+    cursor: pointer;
+}
+
+.btn-submit-recipe:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}

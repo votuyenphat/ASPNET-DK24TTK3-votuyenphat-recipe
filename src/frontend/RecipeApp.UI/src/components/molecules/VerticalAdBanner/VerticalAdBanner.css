@@ -1,0 +1,94 @@
+.vertical-ad-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background-color: var(--color-bg-main);
+}
+
+.ad-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 4px 8px;
+    border-radius: var(--radius-pill);
+    font-size: 10px;
+    font-weight: var(--font-weight-bold);
+    z-index: 10;
+    backdrop-filter: blur(4px);
+}
+
+.marquee-track {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Hiệu ứng CSS Marquee dọc */
+.marquee-content {
+    display: flex;
+    flex-direction: column;
+    animation: scrollVertical 20s linear infinite;
+}
+
+/* Tạm dừng chạy khi di chuột vào */
+.marquee-track:hover .marquee-content {
+    animation-play-state: paused;
+}
+
+@keyframes scrollVertical {
+    0% {
+        transform: translateY(0);
+    }
+
+    /* Cuộn đúng 50% chiều cao (vì mảng đã bị nhân đôi) */
+    100% {
+        transform: translateY(-50%);
+    }
+}
+
+.ad-card {
+    width: 100%;
+    height: 200px;
+    padding: 6px;
+    position: relative;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.ad-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    transition: transform 0.3s;
+}
+
+.ad-overlay {
+    position: absolute;
+    inset: 6px;
+    border-radius: var(--radius-md);
+    background: linear-gradient(to top, rgba(203, 109, 35, 0.8), transparent);
+    opacity: 0;
+    display: flex;
+    align-items: flex-end;
+    padding: 12px;
+    transition: opacity 0.3s;
+}
+
+.ad-text {
+    color: white;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+}
+
+.ad-card:hover .ad-image {
+    transform: scale(1.05);
+}
+
+.ad-card:hover .ad-overlay {
+    opacity: 1;
+}

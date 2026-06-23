@@ -7,6 +7,7 @@ using RecipeApp.API.Features.Authentication;
 using RecipeApp.API.Features.Categories;
 using RecipeApp.API.Features.Recipes;
 using RecipeApp.API.Features.Tags;
+using RecipeApp.API.Features.Uploads;
 using RecipeApp.API.Features.Users;
 using RecipeApp.API.Infrastructure.Database;
 using RecipeApp.API.Infrastructure.Database.Entities;
@@ -69,9 +70,11 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<RecipeService>();
 builder.Services.AddScoped<CategoryService>();
 builder.Services.AddScoped<TagService>();
+builder.Services.AddScoped<UploadService>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
@@ -114,6 +117,7 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 app.UseCors("AllowReactApp"); // Bật CORS với policy đã định nghĩa
 app.UseAuthentication(); // Bật Authentication middleware
 app.UseAuthorization();

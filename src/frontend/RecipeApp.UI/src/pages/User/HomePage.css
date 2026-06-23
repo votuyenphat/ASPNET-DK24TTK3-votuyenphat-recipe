@@ -1,0 +1,29 @@
+.home-page-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.section-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-lg);
+    color: var(--color-text-primary);
+}
+
+/* Chia lưới tự động co giãn cực kỳ thông minh (Responsive Grid) */
+.recipe-grid {
+    display: grid;
+    /* Trên Desktop: Card rộng tối thiểu 250px. Trên Mobile: tự động tràn full màn */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: var(--space-lg);
+}
+
+.loading-state,
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    color: var(--color-text-hint);
+    background-color: var(--color-bg-card);
+    border-radius: var(--radius-lg);
+    border: 1px dashed #ccc;
+}

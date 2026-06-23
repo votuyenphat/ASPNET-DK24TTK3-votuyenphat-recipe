@@ -35,7 +35,7 @@ export const Header = () => {
 
         {/* User Actions */}
         <div className="header-actions">
-          <Link to="/write" className="btn-write-recipe">
+          <Link to="/recipe-writer" className="btn-write-recipe">
             + Viết công thức
           </Link>
 

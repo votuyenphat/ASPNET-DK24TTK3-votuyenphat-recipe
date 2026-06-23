@@ -1,0 +1,282 @@
+/* Thiết lập cấu trúc Grid nền tảng */
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* Chia 4 cột bằng nhau */
+    grid-auto-rows: 180px;
+    /* Chiều cao cơ bản của 1 hàng */
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+}
+
+.bento-item {
+    background-color: var(--color-bg-card);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    position: relative;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+
+.bento-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* --- Cấu hình từng ô (Bento Mapping) --- */
+
+/* Hero chiếm 2 cột, 2 hàng */
+.bento-hero {
+    grid-column: span 2;
+    grid-row: span 2;
+    justify-content: flex-end;
+    color: white;
+}
+
+.bento-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+
+.bento-hero:hover .bento-bg {
+    transform: scale(1.05);
+}
+
+.bento-hero .bento-content {
+    position: relative;
+    z-index: 2;
+    padding: var(--space-lg);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+}
+
+.bento-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background-color: var(--color-error);
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-sm);
+}
+
+.bento-hero h2 {
+    font-size: var(--font-size-xl);
+    margin-bottom: 4px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Category chiếm 1 cột, 1 hàng */
+.bento-category {
+    padding: var(--space-md);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(135deg, var(--color-primary-light), #fff);
+}
+
+.bento-icon-box {
+    background: white;
+    padding: 16px;
+    border-radius: var(--radius-full);
+    margin-bottom: var(--space-sm);
+    box-shadow: 0 4px 12px rgba(203, 109, 35, 0.15);
+}
+
+/* Vertical Ad chiếm 1 cột, 2 hàng */
+.bento-ad {
+    grid-column: span 1;
+    grid-row: span 2;
+    /* Reset padding/shadow vì VerticalAdBanner đã tự xử lý */
+    padding: 0;
+    box-shadow: none;
+    background: transparent;
+}
+
+/* Trending chiếm 1 cột, 1 hàng */
+.bento-trending {
+    padding: var(--space-md);
+}
+
+.trending-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: var(--space-md);
+}
+
+.trending-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.trending-tags .tag {
+    background-color: var(--color-bg-main);
+    color: var(--color-text-secondary);
+    padding: 6px 12px;
+    border-radius: var(--radius-pill);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+}
+
+/* Tip chiếm 2 cột, 1 hàng */
+.bento-tip {
+    grid-column: span 2;
+    grid-row: span 1;
+    padding: var(--space-md);
+    justify-content: center;
+    background-color: #fffbeb;
+    /* Vàng nhạt */
+}
+
+.tip-content {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+}
+
+.bento-chef {
+    padding: var(--space-md);
+    background-color: #faf5ff;
+    /* Tím nhạt */
+    justify-content: center;
+}
+
+.chef-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: var(--space-md);
+}
+
+.chef-title {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    color: #6d28d9;
+}
+
+.chef-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.chef-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-full);
+    object-fit: cover;
+    margin-bottom: var(--space-sm);
+    border: 2px solid white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.chef-name {
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-sm);
+}
+
+.chef-stats {
+    font-size: 11px;
+    color: var(--color-text-secondary);
+    margin-top: 2px;
+}
+
+/* Ô Thử thách (Challenge) */
+.bento-challenge {
+    padding: var(--space-md);
+    background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+    /* Xanh lá nhạt */
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.challenge-icon-wrapper {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    opacity: 0.2;
+    transform: scale(3);
+}
+
+.challenge-text {
+    position: relative;
+    z-index: 1;
+}
+
+.challenge-badge {
+    display: inline-block;
+    background-color: #10b981;
+    color: white;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: var(--radius-pill);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-sm);
+}
+
+.bento-challenge h4 {
+    font-size: var(--font-size-base);
+    color: #065f46;
+    margin-bottom: 4px;
+}
+
+.bento-challenge p {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    color: #047857;
+    cursor: pointer;
+}
+
+/* ==================
+   RESPONSIVE (THÍCH ỨNG MOBILE)
+   ================== */
+@media (max-width: 1024px) {
+    .bento-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .bento-hero {
+        grid-column: span 2;
+    }
+
+    .bento-ad {
+        grid-row: span 1;
+    }
+
+    /* Thu ngắn ad banner trên tablet */
+}
+
+@media (max-width: 768px) {
+    .bento-grid {
+        grid-template-columns: 1fr;
+        /* Đưa tất cả về 1 cột trên điện thoại */
+        grid-auto-rows: auto;
+    }
+
+    .bento-item {
+        grid-column: span 1 !important;
+        grid-row: span 1 !important;
+        min-height: 180px;
+    }
+
+    .bento-hero {
+        min-height: 250px;
+    }
+
+    .bento-ad {
+        min-height: 300px;
+    }
+
+    /* Đủ không gian cho banner cuộn */
+}

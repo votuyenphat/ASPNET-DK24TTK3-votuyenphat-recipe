@@ -37,7 +37,7 @@ namespace RecipeApp.API.Features.Recipes
         }
 
         // Hàm 2: Tạo mới công thức
-        public async Task<int> CreateRecipeAsync(string userId, RecipeCreateRequest request)
+        public async Task<(int Id, string Slug)> CreateRecipeAsync(string userId, RecipeCreateRequest request)
         {
             // 1. Khởi tạo Entity Công thức
             var recipe = new RecipeEntity
@@ -51,7 +51,7 @@ namespace RecipeApp.API.Features.Recipes
                 CookTimeMinutes = request.CookTimeMinutes,
                 Servings = request.Servings,
                 Difficulty = request.Difficulty,
-                Status = 1, // Để là 1 (Pending - Chờ duyệt) hoặc 2 (Approved luôn cho dễ test)
+                Status = 2, // Để là 1 (Pending - Chờ duyệt) hoặc 2 (Approved luôn cho dễ test)
                 Slug = GenerateSlug(request.Title) + "-" + Guid.NewGuid().ToString()[..6] // Tránh trùng slug
             };
 
@@ -106,7 +106,7 @@ namespace RecipeApp.API.Features.Recipes
                 await _context.SaveChangesAsync();
             }
 
-            return recipe.Id;
+            return (recipe.Id, recipe.Slug ?? string.Empty);
         }
 
         // Hàm hỗ trợ tạo URL thân thiện (Slug)
@@ -119,5 +119,63 @@ namespace RecipeApp.API.Features.Recipes
             str = Regex.Replace(str, @"\s", "-");
             return str;
         }
+
+        public async Task<RecipeDetailResponse?> GetRecipeBySlugAsync(string slug)
+        {
+            // Tìm kiếm công thức kèm theo nạp các bảng liên quan (Eager Loading)
+            var recipe = await _context.Recipes
+                .Include(r => r.Author)
+                .Include(r => r.Category)
+                .Include(r => r.InstructionSteps)
+                .Include(r => r.Ingredients)
+                    .ThenInclude(ri => ri.Ingredient) // Chọc từ bảng trung gian vào bảng nguyên liệu gốc để lấy Name
+                .FirstOrDefaultAsync(r => r.Slug == slug && !r.IsDeleted);
+
+            if (recipe == null) return null;
+
+            // Ánh xạ dữ liệu sang DTO trả về
+            return new RecipeDetailResponse
+            {
+                Id = recipe.Id,
+                Title = recipe.Title,
+                Description = recipe.Description,
+                CoverImageUrl = recipe.CoverImageUrl,
+                PrepTimeMinutes = recipe.PrepTimeMinutes,
+                CookTimeMinutes = recipe.CookTimeMinutes,
+                Servings = recipe.Servings,
+                Difficulty = recipe.Difficulty,
+                Cuisine = recipe.Cuisine,
+                YoutubeVideoUrl = recipe.YoutubeVideoUrl,
+                Slug = recipe.Slug,
+                CreatedAt = recipe.CreatedAt,
+                AuthorId = recipe.AuthorId,
+                AuthorName = recipe.Author!.DisplayName,
+                AuthorAvatar = recipe.Author.AvatarUrl,
+                CategoryName = recipe.Category?.Name,
+                
+                Ingredients = recipe.Ingredients
+                    .OrderBy(ri => ri.SortOrder)
+                    .Select(ri => new RecipeIngredientDetailDto
+                    {
+                        IngredientId = ri.IngredientId,
+                        Name = ri.Ingredient!.Name,
+                        Amount = ri.Amount,
+                        Unit = ri.Unit,
+                        Note = ri.Note
+                    }).ToList(),
+                    
+                Steps = recipe.InstructionSteps
+                    .OrderBy(s => s.StepOrder)
+                    .Select(s => new InstructionStepDetailDto
+                    {
+                        Id = s.Id,
+                        StepOrder = s.StepOrder,
+                        Content = s.Content,
+                        ImageUrl = s.ImageUrl
+                    }).ToList()
+            };
+        }
     }
+
+    
 }

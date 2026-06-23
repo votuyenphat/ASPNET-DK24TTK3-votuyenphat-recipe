@@ -1,0 +1,500 @@
+/* Bao bọc tổng thể */
+.recipe-detail-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: var(--space-xl);
+}
+
+/* ==========================================
+   STICKY BAR ĐIỀU KHIỂN KITCHEN MODE
+   ========================================== */
+.kitchen-mode-bar {
+    background-color: var(--color-primary-light);
+    border: 1px solid rgba(203, 109, 35, 0.2);
+    border-radius: var(--radius-md);
+    padding: var(--space-sm) var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+.mode-bar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.mode-bar-container p {
+    font-size: var(--font-size-sm);
+    color: var(--color-primary);
+    font-weight: var(--font-weight-medium);
+    margin: 0;
+}
+
+.btn-toggle-kitchen {
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: var(--radius-pill);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-sm);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-toggle-kitchen.active {
+    background-color: #333333;
+}
+
+/* ==========================================
+   BỐ CỤC ASYMMETRIC GRID (2 CỘT KHÔNG ĐỀU)
+   ========================================== */
+.recipe-detail-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    /* 1 Cột trên Mobile */
+    gap: var(--space-xl);
+    align-items: start;
+}
+
+@media (min-width: 1024px) {
+    .recipe-detail-layout {
+        grid-template-columns: 2fr 1fr;
+        /* 2 Cột tỷ lệ vàng trên Desktop */
+    }
+}
+
+/* ==========================================
+   CHI TIẾT CỘT TRÁI (MAIN CONTENT)
+   ========================================== */
+.recipe-hero-cover {
+    width: 100%;
+    height: 300px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    position: relative;
+}
+
+@media (min-width: 768px) {
+    .recipe-hero-cover {
+        height: 450px;
+    }
+}
+
+.recipe-hero-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cover-gradient-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 60%, rgba(0, 0, 0, 0.4));
+    padding: var(--space-md);
+    display: flex;
+    align-items: flex-end;
+}
+
+.recipe-category-tag {
+    background-color: var(--color-primary);
+    color: white;
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+}
+
+.recipe-intro-section {
+    margin: var(--space-lg) 0;
+}
+
+.recipe-main-title {
+    font-size: var(--font-size-xxl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-sm);
+}
+
+.recipe-description-text {
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+}
+
+/* KHỐI NGUYÊN LIỆU CÓ ĐỘC LẬP TƯƠNG TÁC */
+.ingredients-card-box {
+    background-color: var(--color-bg-card);
+    padding: var(--space-xl);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    margin-bottom: var(--space-xl);
+}
+
+.box-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-lg);
+    border-bottom: 2px solid var(--color-bg-main);
+    padding-bottom: var(--space-sm);
+}
+
+.box-header h2 {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    margin: 0;
+}
+
+.servings-counter {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-hint);
+}
+
+.ingredients-interactive-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.ingredient-item-row {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    transition: background-color 0.2s;
+}
+
+.ingredient-item-row:hover {
+    background-color: var(--color-bg-main);
+}
+
+.checkbox-ui {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--color-text-hint);
+    border-radius: 4px;
+    margin-right: var(--space-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.ingredient-item-row.checked .checkbox-ui {
+    background-color: var(--color-success);
+    border-color: var(--color-success);
+}
+
+.ingredient-item-row.checked .ing-name,
+.ingredient-item-row.checked .ing-amount {
+    text-decoration: line-through;
+    color: var(--color-text-hint);
+}
+
+.ing-name {
+    font-weight: var(--font-weight-medium);
+}
+
+.ing-dots-spacer {
+    flex-grow: 1;
+    border-bottom: 1px dashed #e2e8f0;
+    margin: 0 var(--space-md);
+}
+
+.ing-amount {
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+}
+
+/* TIMELINE CÁC BƯỚC THỰC HIỆN */
+.instruction-steps-section {
+    margin-top: var(--space-xl);
+}
+
+.steps-section-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-xl);
+}
+
+.steps-timeline-flow {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+    position: relative;
+    padding-left: 24px;
+    border-left: 2px solid #e2e8f0;
+    /* Đường trục dọc timeline */
+}
+
+.timeline-step-card {
+    position: relative;
+}
+
+.step-number-node {
+    position: absolute;
+    left: -40px;
+    top: 0;
+    background-color: var(--color-primary);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: var(--font-weight-bold);
+    border: 4px solid var(--color-bg-main);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.step-body-content {
+    background-color: var(--color-bg-card);
+    padding: var(--space-lg);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+}
+
+.step-text-detail {
+    font-size: var(--font-size-base);
+    line-height: 1.6;
+    margin-bottom: var(--space-md);
+}
+
+.step-image-wrapper {
+    width: 100%;
+    max-width: 500px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.step-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ==========================================
+   CHI TIẾT CỘT PHẢI (STICKY SIDEBAR WIDGET)
+   ========================================= */
+.recipe-sticky-sidebar {
+    width: 100%;
+}
+
+@media (min-width: 1024px) {
+    .recipe-sticky-sidebar {
+        position: sticky;
+        top: 90px;
+        /* Ghim dính cách cạnh trên 90px khi cuộn chuột */
+        height: fit-content;
+    }
+}
+
+.sticky-inner-panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.sidebar-widget {
+    background-color: var(--color-bg-card);
+    padding: var(--space-lg);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+}
+
+/* Widget thông số */
+.metrics-widget {
+    background: linear-gradient(135deg, #ffffff, #fffaf6);
+    border: 1px solid var(--color-primary-light);
+}
+
+.metric-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+}
+
+.metric-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.icon-p {
+    color: var(--color-primary);
+}
+
+.m-label {
+    display: block;
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+}
+
+.m-val {
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-base);
+}
+
+.metric-divider {
+    height: 1px;
+    background-color: #f1f5f9;
+    margin: var(--space-md) 0;
+}
+
+.metric-single-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: var(--font-size-sm);
+}
+
+/* Widget tác giả */
+.author-widget {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.chef-avatar-large {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-full);
+    object-fit: cover;
+}
+
+.chef-meta {
+    flex-grow: 1;
+}
+
+.widget-label {
+    font-size: 11px;
+    color: var(--color-text-hint);
+    display: block;
+}
+
+.chef-title-name {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
+    margin: 0;
+}
+
+.btn-follow-chef {
+    background-color: var(--color-bg-main);
+    border: 1px solid #cbd5e1;
+    padding: 6px 12px;
+    border-radius: var(--radius-pill);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-follow-chef:hover {
+    background-color: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+}
+
+/* Nút bấm hành động nhóm */
+.sidebar-actions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-sm);
+}
+
+.btn-action-side {
+    border: none;
+    padding: var(--space-sm);
+    border-radius: var(--radius-md);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.btn-action-side.save {
+    background-color: #fff1f2;
+    color: var(--color-error);
+}
+
+.btn-action-side.share {
+    background-color: #f1f5f9;
+    color: var(--color-text-primary);
+}
+
+.video-link-widget {
+    background-color: #000;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+}
+
+.video-thumb-mock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+    color: white;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+}
+
+/* ==========================================
+   🔥 KÍCH HOẠT KITCHEN MODE OVERRIDES (CHỮ TO)
+   ========================================== */
+.kitchen-active .recipe-main-title {
+    font-size: 2.5rem;
+}
+
+.kitchen-active .recipe-description-text {
+    font-size: 1.2rem;
+}
+
+.kitchen-active .box-header h2,
+.kitchen-active .steps-section-title {
+    font-size: 1.6rem;
+}
+
+.kitchen-active .ingredient-item-row {
+    padding: var(--space-md);
+    /* Tăng diện tích click ô nguyên liệu */
+    background-color: #ffffff;
+    margin-bottom: var(--space-xs);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.kitchen-active .checkbox-ui {
+    width: 26px;
+    /* Ô checkbox to hơn rõ ràng */
+    height: 26px;
+}
+
+.kitchen-active .ing-name,
+.kitchen-active .ing-amount,
+.kitchen-active .step-text-detail {
+    font-size: 1.3rem;
+    /* Phóng to chữ toàn bộ để đọc từ khoảng cách 1 mét */
+}
+
+.kitchen-active .step-number-node {
+    width: 42px;
+    height: 42px;
+    left: -45px;
+    font-size: 1.2rem;
+}
